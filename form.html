@@ -60,7 +60,6 @@
       position:relative;z-index:1;
     }
 
-    /* ── HEADER ── */
     .header {
       text-align:center;
       margin-bottom:20px;
@@ -77,7 +76,6 @@
       margin-top:4px;font-weight:500;
     }
 
-    /* ── CARD ── */
     .card {
       background:var(--surface);
       border:1px solid var(--border);
@@ -92,7 +90,6 @@
       padding:16px 20px 8px;
     }
 
-    /* ── PLANS ── */
     .plans {
       padding:0 16px 16px;
       display:grid;grid-template-columns:1fr 1fr;gap:10px;
@@ -110,10 +107,7 @@
       background:linear-gradient(135deg,var(--green-dim),transparent);
       opacity:0;transition:opacity 0.2s;
     }
-    .plan.selected {
-      border-color:var(--green);
-      box-shadow:0 0 0 3px var(--green-glow);
-    }
+    .plan.selected { border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow); }
     .plan.selected::before { opacity:1; }
     .plan-check {
       position:absolute;top:10px;right:10px;
@@ -139,10 +133,8 @@
       margin-bottom:5px;font-family:'Nunito',sans-serif;
     }
 
-    /* ── DIVIDER ── */
     .divider { height:1px;background:var(--border);margin:0 20px; }
 
-    /* ── UPI ── */
     .upi-row {
       display:flex;align-items:center;
       justify-content:space-between;padding:14px 20px;
@@ -169,7 +161,6 @@
     .copy-pill:active { transform:scale(0.95); }
     .copy-pill.copied { color:var(--text3);border-color:var(--border); }
 
-    /* ── FIELDS ── */
     .fields {
       padding:4px 16px 16px;
       display:flex;flex-direction:column;gap:10px;
@@ -197,7 +188,6 @@
     }
     input::placeholder { color:var(--text3);font-weight:400; }
 
-    /* ── UPLOAD ── */
     .upload-wrap {
       background:var(--surface2);
       border:1.5px dashed var(--border2);
@@ -206,10 +196,7 @@
       position:relative;transition:all 0.2s;margin:0 16px 16px;
     }
     .upload-wrap:hover { border-color:rgba(48,209,88,0.4); }
-    .upload-wrap.has-file {
-      border-color:var(--green);border-style:solid;
-      background:var(--green-dim);
-    }
+    .upload-wrap.has-file { border-color:var(--green);border-style:solid;background:var(--green-dim); }
     .upload-wrap input {
       position:absolute;inset:0;opacity:0;
       cursor:pointer;width:100%;height:100%;
@@ -219,7 +206,6 @@
     .upload-sub { font-size:12px;color:var(--text3); }
     .upload-sub.ready { color:var(--green);font-weight:700; }
 
-    /* ── NOTICE ── */
     .notice {
       display:flex;align-items:flex-start;gap:10px;
       background:rgba(10,132,255,0.06);
@@ -231,7 +217,6 @@
     .notice-text { font-size:13px;color:var(--text2);line-height:1.6; }
     .notice-text b { color:var(--text); }
 
-    /* ── ERROR ── */
     .error-box {
       background:rgba(255,69,58,0.1);
       border:1px solid rgba(255,69,58,0.2);
@@ -240,7 +225,6 @@
       font-size:13px;font-weight:600;color:var(--red);display:none;
     }
 
-    /* ── SUBMIT ── */
     .submit-wrap { padding:0 16px 20px; }
     .submit-btn {
       width:100%;padding:17px;
@@ -260,7 +244,6 @@
     }
     @keyframes spin { to { transform:rotate(360deg); } }
 
-    /* ══ SUCCESS ══ */
     .success-screen { display:none;animation:fadeUp 0.4s ease both; }
     .success-header { text-align:center;padding:32px 20px 24px; }
     .success-anim {
@@ -298,9 +281,10 @@
     .join-btn {
       display:flex;align-items:center;justify-content:center;gap:10px;
       padding:17px;border-radius:var(--radius);
-      font-size:15px;font-weight:700;text-decoration:none;
+      font-size:15px;font-weight:700;
+      text-decoration:none;cursor:pointer;border:none;
       font-family:'Hind Siliguri','Nunito',sans-serif;
-      transition:opacity 0.2s;
+      transition:opacity 0.2s;width:100%;
     }
     .join-btn:active { opacity:0.85; }
     .btn-sg {
@@ -311,7 +295,10 @@
       background:linear-gradient(135deg,#3a1c2e,#250a18);
       color:white;border:1.5px solid rgba(255,45,85,0.3);
     }
-    .btn-wa { background:#128c7e;color:white; }
+    .btn-wa {
+      background:#128c7e;color:white;
+      border:1.5px solid transparent;
+    }
 
     .approval-notice {
       background:var(--surface);border:1px solid var(--border);
@@ -334,7 +321,6 @@
   <!-- ══ FORM SCREEN ══ -->
   <div id="form-screen">
 
-    <!-- Header -->
     <div class="header">
       <div class="brand-name">Freelance<span>Buddy</span></div>
       <div class="brand-sub">Sproutgigs জব অ্যালার্ট — তাৎক্ষণিক ও যাচাইকৃত</div>
@@ -342,7 +328,6 @@
 
     <div class="card">
 
-      <!-- Plan -->
       <div class="section-label">পরিকল্পনা বেছে নিন</div>
       <div class="plans">
         <div class="plan" id="plan-a" onclick="selectPlan('a')">
@@ -362,13 +347,12 @@
 
       <div class="divider"></div>
 
-      <!-- UPI -->
       <div class="upi-row">
         <div class="upi-left">
           <div class="upi-icon">💳</div>
           <div>
             <div class="upi-label">প্রথমে UPI তে পেমেন্ট করুন</div>
-            <div class="upi-id" id="upi-text">REPLACE_UPI_ID</div>
+            <div class="upi-id" id="upi-text">8759580801-4@ybl</div>
           </div>
         </div>
         <button class="copy-pill" id="copy-btn" onclick="copyUPI()">কপি</button>
@@ -376,43 +360,31 @@
 
       <div class="divider"></div>
 
-      <!-- Fields -->
       <div class="section-label">আপনার তথ্য দিন</div>
       <div class="fields">
-
         <div class="field-wrap">
           <div class="field-icon">👤</div>
           <div class="field-inner">
             <div class="field-label">পুরো নাম (UPI / ব্যাংক অনুযায়ী)</div>
-            <input type="text" id="f-name"
-              placeholder="আপনার পুরো নাম লিখুন"
-              autocomplete="name">
+            <input type="text" id="f-name" placeholder="আপনার পুরো নাম লিখুন" autocomplete="name">
           </div>
         </div>
-
         <div class="field-wrap">
           <div class="field-icon">✈️</div>
           <div class="field-inner">
             <div class="field-label">টেলিগ্রাম ইউজারনেম</div>
-            <input type="text" id="f-tg"
-              placeholder="@username"
-              autocomplete="off" autocorrect="off" autocapitalize="off">
+            <input type="text" id="f-tg" placeholder="@username" autocomplete="off" autocorrect="off" autocapitalize="off">
           </div>
         </div>
-
         <div class="field-wrap">
           <div class="field-icon">📱</div>
           <div class="field-inner">
             <div class="field-label">হোয়াটসঅ্যাপ নম্বর</div>
-            <input type="tel" id="f-wa"
-              placeholder="আপনার নম্বর লিখুন"
-              inputmode="numeric">
+            <input type="tel" id="f-wa" placeholder="আপনার নম্বর লিখুন" inputmode="numeric">
           </div>
         </div>
-
       </div>
 
-      <!-- Screenshot -->
       <div class="upload-wrap" id="upload-wrap">
         <input type="file" id="f-ss" accept="image/*" onchange="onFile(this)">
         <div class="upload-icon" id="upload-icon">📸</div>
@@ -420,7 +392,6 @@
         <div class="upload-sub" id="upload-sub">ছবি বেছে নিতে ট্যাপ করুন</div>
       </div>
 
-      <!-- Notice -->
       <div class="notice">
         <div class="notice-icon">ℹ️</div>
         <div class="notice-text">
@@ -429,10 +400,8 @@
         </div>
       </div>
 
-      <!-- Error -->
       <div class="error-box" id="err-box"></div>
 
-      <!-- Submit -->
       <div class="submit-wrap">
         <button class="submit-btn" id="sub-btn" onclick="doSubmit()">
           <div class="spinner" id="spinner"></div>
@@ -440,7 +409,7 @@
         </button>
       </div>
 
-    </div><!-- /card -->
+    </div>
   </div><!-- /form-screen -->
 
 
@@ -459,38 +428,29 @@
     <div class="steps-card">
       <div class="step-row">
         <div class="step-num">১</div>
-        <div class="step-text">
-          নিচের বাটনে ক্লিক করুন →
-          <b>Send Join Request</b> ট্যাপ করুন
-        </div>
+        <div class="step-text">নিচের বাটনে ক্লিক করুন → <b>Send Join Request</b> ট্যাপ করুন</div>
       </div>
       <div class="step-row">
         <div class="step-num">২</div>
-        <div class="step-text">
-          আমরা আপনার <b>নাম + স্ক্রিনশট</b>
-          আমাদের ব্যাংক রেকর্ডের সাথে মেলাব
-        </div>
+        <div class="step-text">আমরা আপনার <b>নাম + স্ক্রিনশট</b> আমাদের ব্যাংক রেকর্ডের সাথে মেলাব</div>
       </div>
       <div class="step-row">
         <div class="step-num">৩</div>
-        <div class="step-text">
-          আমরা আপনার রিকোয়েস্ট <b>অ্যাপ্রুভ</b> করব —
-          সাধারণত <b>১ ঘণ্টার মধ্যে</b>
-        </div>
+        <div class="step-text">আমরা আপনার রিকোয়েস্ট <b>অ্যাপ্রুভ</b> করব — সাধারণত <b>১ ঘণ্টার মধ্যে</b></div>
       </div>
     </div>
 
     <div class="join-btns">
-      <a id="btn-sg" href="https://t.me/+3gG0hIkafQcwMDk1" class="join-btn btn-sg" target="_blank">
+      <!-- Buttons use onclick only — works in all browsers including Telegram/WhatsApp webview -->
+      <button id="btn-sg" class="join-btn btn-sg" onclick="openLink(SG_LINK)">
         ⚡ SG Alert চ্যানেলে জয়েন করুন
-      </a>
-      <a id="btn-buyer" href="https://t.me/+-rbE17VCQcE0NDg1" class="join-btn btn-buyer"
-         target="_blank" style="display:none">
+      </button>
+      <button id="btn-buyer" class="join-btn btn-buyer" onclick="openLink(BUYER_LINK)" style="display:none">
         👀 Buyer Watcher চ্যানেলে জয়েন করুন
-      </a>
-      <a id="btn-wa" href="#" class="join-btn btn-wa" target="_blank">
+      </button>
+      <button id="btn-wa" class="join-btn btn-wa" onclick="openWA()">
         💬 সাহায্যের জন্য WhatsApp করুন
-      </a>
+      </button>
     </div>
 
     <div class="approval-notice">
@@ -503,20 +463,36 @@
 
   </div><!-- /success-screen -->
 
-</div><!-- /wrapper -->
+</div>
 
 <script>
-  /* ══ CONFIG — এই ৫টি মান বদলান ══════════════════════════ */
+  /* ══ CONFIG ════════════════════════════════════════════════ */
   var UPI_ID      = "8759580801-4@ybl";
   var SG_LINK     = "https://t.me/+3gG0hIkafQcwMDk1";
   var BUYER_LINK  = "https://t.me/+-rbE17VCQcE0NDg1";
-  var WHATSAPP    = "6294146285";     // শুধু নম্বর, 91 ছাড়া — e.g. 9876543210
+  var WHATSAPP    = "6294146285";
   var BACKEND_URL = "https://freelancebuddy-bot.onrender.com";
-  /* ════════════════════════════════════════════════════════ */
+  /* ═══════════════════════════════════════════════════════════ */
+
+  var waMsg = "";
+
+  /* Opens t.me links — works in Telegram webview, WhatsApp webview, normal browser */
+  function openLink(url) {
+    /* Try window.open first */
+    var w = window.open(url, "_blank");
+    /* If blocked (webview), fall back to location change */
+    if (!w || w.closed || typeof w.closed === "undefined") {
+      window.location.href = url;
+    }
+  }
+
+  function openWA() {
+    openLink("https://wa.me/91" + WHATSAPP + "?text=" + encodeURIComponent(waMsg));
+  }
 
   document.getElementById("upi-text").textContent = UPI_ID;
 
-  var selectedPlan = "b"; // ডিফল্ট: ₹39 প্ল্যান
+  var selectedPlan = "b";
 
   function selectPlan(p) {
     selectedPlan = p;
@@ -557,8 +533,8 @@
 
   function setLoading(on) {
     var btn = document.getElementById("sub-btn");
-    document.getElementById("spinner").style.display   = on ? "block" : "none";
-    document.getElementById("btn-text").textContent    = on ? "জমা হচ্ছে…" : "সাবমিট করুন ও জয়েন লিংক পান →";
+    document.getElementById("spinner").style.display = on ? "block" : "none";
+    document.getElementById("btn-text").textContent  = on ? "জমা হচ্ছে…" : "সাবমিট করুন ও জয়েন লিংক পান →";
     btn.disabled = on;
   }
 
@@ -614,18 +590,15 @@
   }
 
   function showSuccess(plan, name, tg) {
+    /* Show buyer button only for pro plan */
     if (plan === "pro") {
       document.getElementById("btn-buyer").style.display = "flex";
     }
 
-    // WhatsApp number without 91 prefix
-    document.getElementById("btn-wa").href =
-      "https://wa.me/91" + WHATSAPP +
-      "?text=" + encodeURIComponent(
-        "হ্যালো! আমি FreelanceBuddy ফর্ম জমা দিয়েছি।\nনাম: " + name +
-        "\nTelegram: @" + tg
-      );
+    /* Store WhatsApp message */
+    waMsg = "হ্যালো! আমি FreelanceBuddy ফর্ম জমা দিয়েছি।\nনাম: " + name + "\nTelegram: @" + tg;
 
+    /* Switch screens */
     document.getElementById("form-screen").style.display    = "none";
     document.getElementById("success-screen").style.display = "block";
     window.scrollTo({top:0, behavior:"smooth"});
