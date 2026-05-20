@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/",      "destination": "/form.html"  },
+    { "source": "/join",  "destination": "/form.html"  },
+    { "source": "/renew", "destination": "/renew.html" }
+  ]
+}
