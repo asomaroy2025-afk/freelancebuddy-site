@@ -5,292 +5,128 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0a0a0a">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>FreelanceBuddy — রিনিউ করুন</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:         #0a0a0a;
-      --surface:    #141414;
-      --surface2:   #1c1c1c;
-      --border:     rgba(255,255,255,0.08);
-      --border2:    rgba(255,255,255,0.14);
-      --green:      #30d158;
-      --green-dim:  rgba(48,209,88,0.12);
-      --green-glow: rgba(48,209,88,0.25);
-      --orange:     #ff9f0a;
-      --orange-dim: rgba(255,159,10,0.12);
-      --text:       #ffffff;
-      --text2:      #ebebf5cc;
-      --text3:      #ebebf566;
-      --red:        #ff453a;
-      --radius:     16px;
-      --radius-sm:  12px;
+      --bg:#0a0a0a;--surface:#141414;--surface2:#1c1c1c;
+      --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+      --green:#30d158;--green-dim:rgba(48,209,88,0.12);
+      --orange:#ff9f0a;--text:#ffffff;--text2:#ebebf5cc;--text3:#ebebf566;
+      --red:#ff453a;--radius:16px;--radius-sm:12px;
     }
-
-    * { box-sizing:border-box; margin:0; padding:0;
-        -webkit-tap-highlight-color:transparent; }
-
-    body {
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    body{
       font-family:'Hind Siliguri','Nunito',sans-serif;
       background:var(--bg);color:var(--text);
       min-height:100vh;min-height:100dvh;
-      display:flex;align-items:flex-start;
-      justify-content:center;
-      padding:env(safe-area-inset-top,16px) 16px
-              env(safe-area-inset-bottom,24px);
-      overflow-x:hidden;
+      display:flex;align-items:flex-start;justify-content:center;
+      padding:env(safe-area-inset-top,16px) 16px env(safe-area-inset-bottom,24px);
     }
-
-    body::before {
-      content:'';position:fixed;
-      top:-20%;left:50%;transform:translateX(-50%);
+    body::before{
+      content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);
       width:600px;height:600px;
       background:radial-gradient(circle,rgba(255,159,10,0.05) 0%,transparent 70%);
       pointer-events:none;z-index:0;
     }
+    .wrapper{width:100%;max-width:420px;padding:20px 0 40px;position:relative;z-index:1;}
 
-    .wrapper {
-      width:100%;max-width:420px;
-      padding:20px 0 40px;
-      position:relative;z-index:1;
-    }
-
-    /* ── HEADER ── */
-    .header {
-      text-align:center;margin-bottom:20px;
-      animation:fadeUp 0.4s ease both;
-    }
-    .brand-name {
-      font-family:'Nunito',sans-serif;
-      font-size:26px;font-weight:800;
-      letter-spacing:-0.5px;color:var(--text);
-    }
-    .brand-name span { color:var(--green); }
-    .renew-badge {
+    .header{text-align:center;margin-bottom:20px;animation:fadeUp 0.4s ease both}
+    .brand-name{font-family:'Nunito',sans-serif;font-size:26px;font-weight:800;letter-spacing:-0.5px}
+    .brand-name span{color:var(--green)}
+    .renew-badge{
       display:inline-flex;align-items:center;gap:6px;
-      background:rgba(255,159,10,0.1);
-      border:1px solid rgba(255,159,10,0.2);
+      background:rgba(255,159,10,0.1);border:1px solid rgba(255,159,10,0.2);
       border-radius:50px;padding:5px 14px;
-      font-size:13px;font-weight:700;color:var(--orange);
-      margin-top:8px;font-family:'Nunito',sans-serif;
+      font-size:13px;font-weight:700;color:var(--orange);margin-top:8px;
     }
 
-    /* ── CARD ── */
-    .card {
-      background:var(--surface);
-      border:1px solid var(--border);
+    .card{
+      background:var(--surface);border:1px solid var(--border);
       border-radius:24px;overflow:hidden;
       box-shadow:0 2px 40px rgba(0,0,0,0.4);
       animation:fadeUp 0.4s ease 0.05s both;
     }
+    .section-label{font-size:12px;font-weight:700;color:var(--text3);letter-spacing:0.5px;padding:16px 20px 8px;}
 
-    .section-label {
-      font-size:12px;font-weight:700;
-      color:var(--text3);letter-spacing:0.5px;
-      padding:16px 20px 8px;
-    }
+    .pricing-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 16px;}
+    .price-card{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center;}
+    .price-amount{font-family:'Nunito',sans-serif;font-size:22px;font-weight:800;color:var(--green);margin-bottom:4px;}
+    .price-plan{font-size:12px;color:var(--text3);}
 
-    /* ── PRICING ── */
-    .pricing-row {
-      display:grid;grid-template-columns:1fr 1fr;
-      gap:10px;padding:0 16px 16px;
-    }
-    .price-card {
-      background:var(--surface2);
-      border:1.5px solid var(--border);
-      border-radius:var(--radius-sm);
-      padding:14px;text-align:center;
-    }
-    .price-amount {
-      font-family:'Nunito',sans-serif;
-      font-size:22px;font-weight:800;color:var(--green);
-      margin-bottom:4px;
-    }
-    .price-plan { font-size:12px;color:var(--text3); }
+    .divider{height:1px;background:var(--border);margin:0 20px;}
 
-    /* ── DIVIDER ── */
-    .divider { height:1px;background:var(--border);margin:0 20px; }
+    .upi-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;}
+    .upi-left{display:flex;align-items:center;gap:12px;}
+    .upi-icon{width:40px;height:40px;background:linear-gradient(135deg,#6e40c9,#4b1dbd);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+    .upi-label{font-size:12px;color:var(--text3);margin-bottom:2px;}
+    .upi-id{font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;color:var(--text);}
+    .copy-pill{background:var(--surface2);border:1px solid var(--border2);border-radius:50px;padding:8px 16px;font-size:13px;font-weight:700;color:var(--orange);cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;font-family:'Nunito',sans-serif;}
+    .copy-pill:active{transform:scale(0.95)}
+    .copy-pill.copied{color:var(--text3);border-color:var(--border)}
 
-    /* ── UPI ── */
-    .upi-row {
-      display:flex;align-items:center;
-      justify-content:space-between;padding:14px 20px;
-    }
-    .upi-left { display:flex;align-items:center;gap:12px; }
-    .upi-icon {
-      width:40px;height:40px;
-      background:linear-gradient(135deg,#6e40c9,#4b1dbd);
-      border-radius:12px;display:flex;align-items:center;
-      justify-content:center;font-size:18px;flex-shrink:0;
-    }
-    .upi-label { font-size:12px;color:var(--text3);margin-bottom:2px; }
-    .upi-id {
-      font-family:'Nunito',sans-serif;
-      font-size:15px;font-weight:700;color:var(--text);
-    }
-    .copy-pill {
-      background:var(--surface2);border:1px solid var(--border2);
-      border-radius:50px;padding:8px 16px;
-      font-size:13px;font-weight:700;color:var(--orange);
-      cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;
-      font-family:'Nunito',sans-serif;
-    }
-    .copy-pill:active { transform:scale(0.95); }
-    .copy-pill.copied { color:var(--text3);border-color:var(--border); }
+    .fields{padding:4px 16px 16px;display:flex;flex-direction:column;gap:10px;}
+    .field-wrap{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;gap:12px;padding:0 16px;transition:border-color 0.2s;}
+    .field-wrap:focus-within{border-color:rgba(255,159,10,0.5)}
+    .field-icon{font-size:17px;flex-shrink:0;opacity:0.7;}
+    .field-inner{flex:1;padding:13px 0;}
+    .field-label{font-size:11px;color:var(--text3);font-weight:600;margin-bottom:3px;font-family:'Nunito',sans-serif;letter-spacing:0.3px;}
+    input{background:transparent;border:none;outline:none;font-size:15px;font-weight:600;color:var(--text);width:100%;font-family:'Hind Siliguri','Nunito',sans-serif;-webkit-appearance:none;}
+    input::placeholder{color:var(--text3);font-weight:400;}
 
-    /* ── FIELDS ── */
-    .fields {
-      padding:4px 16px 16px;
-      display:flex;flex-direction:column;gap:10px;
-    }
-    .field-wrap {
-      background:var(--surface2);
-      border:1.5px solid var(--border);
-      border-radius:var(--radius-sm);
-      display:flex;align-items:center;gap:12px;padding:0 16px;
-      transition:border-color 0.2s;
-    }
-    .field-wrap:focus-within { border-color:rgba(255,159,10,0.5); }
-    .field-icon { font-size:17px;flex-shrink:0;opacity:0.7; }
-    .field-inner { flex:1;padding:13px 0; }
-    .field-label {
-      font-size:11px;color:var(--text3);
-      font-weight:600;margin-bottom:3px;
-      font-family:'Nunito',sans-serif;letter-spacing:0.3px;
-    }
-    input {
-      background:transparent;border:none;outline:none;
-      font-size:15px;font-weight:600;color:var(--text);
-      width:100%;font-family:'Hind Siliguri','Nunito',sans-serif;
-      -webkit-appearance:none;
-    }
-    input::placeholder { color:var(--text3);font-weight:400; }
+    .upload-wrap{background:var(--surface2);border:1.5px dashed var(--border2);border-radius:var(--radius-sm);padding:22px;text-align:center;cursor:pointer;position:relative;transition:all 0.2s;margin:0 16px 16px;}
+    .upload-wrap.has-file{border-color:var(--green);border-style:solid;background:var(--green-dim);}
+    .upload-wrap input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .upload-icon{font-size:28px;margin-bottom:6px;}
+    .upload-main{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+    .upload-sub{font-size:12px;color:var(--text3);}
+    .upload-sub.ready{color:var(--green);font-weight:700;}
 
-    /* ── UPLOAD ── */
-    .upload-wrap {
-      background:var(--surface2);
-      border:1.5px dashed var(--border2);
-      border-radius:var(--radius-sm);
-      padding:22px;text-align:center;
-      cursor:pointer;position:relative;
-      transition:all 0.2s;margin:0 16px 16px;
-    }
-    .upload-wrap:hover { border-color:rgba(255,159,10,0.4); }
-    .upload-wrap.has-file {
-      border-color:var(--green);border-style:solid;
-      background:var(--green-dim);
-    }
-    .upload-wrap input {
-      position:absolute;inset:0;opacity:0;
-      cursor:pointer;width:100%;height:100%;
-    }
-    .upload-icon { font-size:28px;margin-bottom:6px; }
-    .upload-main { font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px; }
-    .upload-sub { font-size:12px;color:var(--text3); }
-    .upload-sub.ready { color:var(--green);font-weight:700; }
+    .notice{display:flex;align-items:flex-start;gap:10px;background:rgba(255,159,10,0.06);border:1px solid rgba(255,159,10,0.15);border-radius:var(--radius-sm);padding:12px 14px;margin:0 16px 16px;}
+    .notice-icon{font-size:14px;flex-shrink:0;margin-top:2px;}
+    .notice-text{font-size:13px;color:var(--text2);line-height:1.6;}
+    .notice-text b{color:var(--text);}
 
-    /* ── NOTICE ── */
-    .notice {
-      display:flex;align-items:flex-start;gap:10px;
-      background:rgba(255,159,10,0.06);
-      border:1px solid rgba(255,159,10,0.15);
-      border-radius:var(--radius-sm);
-      padding:12px 14px;margin:0 16px 16px;
-    }
-    .notice-icon { font-size:14px;flex-shrink:0;margin-top:2px; }
-    .notice-text { font-size:13px;color:var(--text2);line-height:1.6; }
-    .notice-text b { color:var(--text); }
+    .error-box{background:rgba(255,69,58,0.1);border:1px solid rgba(255,69,58,0.2);border-radius:var(--radius-sm);padding:12px 16px;margin:0 16px 12px;font-size:13px;font-weight:600;color:var(--red);display:none;}
 
-    /* ── ERROR ── */
-    .error-box {
-      background:rgba(255,69,58,0.1);
-      border:1px solid rgba(255,69,58,0.2);
-      border-radius:var(--radius-sm);
-      padding:12px 16px;margin:0 16px 12px;
-      font-size:13px;font-weight:600;color:var(--red);display:none;
-    }
+    .submit-wrap{padding:0 16px 20px;}
+    .submit-btn{width:100%;padding:17px;background:var(--orange);color:#000;border:none;border-radius:var(--radius);font-size:16px;font-weight:800;font-family:'Hind Siliguri','Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;}
+    .submit-btn:active{transform:scale(0.98)}
+    .submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+    .spinner{width:18px;height:18px;border:2.5px solid rgba(0,0,0,0.2);border-top-color:#000;border-radius:50%;animation:spin 0.7s linear infinite;display:none;}
+    @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* ── SUBMIT ── */
-    .submit-wrap { padding:0 16px 20px; }
-    .submit-btn {
-      width:100%;padding:17px;
-      background:var(--orange);color:#000;border:none;
-      border-radius:var(--radius);font-size:16px;font-weight:800;
-      font-family:'Hind Siliguri','Nunito',sans-serif;
-      cursor:pointer;display:flex;align-items:center;
-      justify-content:center;gap:8px;transition:all 0.2s;
-    }
-    .submit-btn:active { transform:scale(0.98); }
-    .submit-btn:disabled { opacity:0.5;cursor:not-allowed;transform:none; }
-    .spinner {
-      width:18px;height:18px;
-      border:2.5px solid rgba(0,0,0,0.2);
-      border-top-color:#000;border-radius:50%;
-      animation:spin 0.7s linear infinite;display:none;
-    }
-    @keyframes spin { to { transform:rotate(360deg); } }
+    .success-screen{display:none;animation:fadeUp 0.4s ease both;}
+    .success-header{text-align:center;padding:32px 20px 24px;}
+    .success-anim{width:76px;height:76px;background:var(--green-dim);border:2px solid var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 16px;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;}
+    @keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+    .success-title{font-size:22px;font-weight:700;margin-bottom:6px;}
+    .success-sub{font-size:14px;color:var(--text3);line-height:1.6;}
 
-    /* ══ SUCCESS ══ */
-    .success-screen { display:none;animation:fadeUp 0.4s ease both; }
-    .success-header { text-align:center;padding:32px 20px 24px; }
-    .success-anim {
-      width:76px;height:76px;
-      background:var(--green-dim);border:2px solid var(--green);
-      border-radius:50%;display:flex;align-items:center;
-      justify-content:center;font-size:34px;
-      margin:0 auto 16px;
-      animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
-    }
-    @keyframes popIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
-    .success-title { font-size:22px;font-weight:700;margin-bottom:6px; }
-    .success-sub { font-size:14px;color:var(--text3);line-height:1.6; }
+    .result-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;margin-bottom:16px;overflow:hidden;}
+    .result-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);}
+    .result-row:last-child{border-bottom:none;}
+    .result-label{font-size:13px;color:var(--text3);}
+    .result-val{font-size:14px;font-weight:700;color:var(--text);}
+    .result-val.green{color:var(--green);}
 
-    .result-card {
-      background:var(--surface);border:1px solid var(--border);
-      border-radius:20px;margin-bottom:16px;overflow:hidden;
-    }
-    .result-row {
-      display:flex;align-items:center;
-      justify-content:space-between;
-      padding:14px 20px;border-bottom:1px solid var(--border);
-    }
-    .result-row:last-child { border-bottom:none; }
-    .result-label { font-size:13px;color:var(--text3); }
-    .result-val { font-size:14px;font-weight:700;color:var(--text); }
-    .result-val.green { color:var(--green); }
+    .wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;border-radius:var(--radius);background:#128c7e;color:white;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Hind Siliguri','Nunito',sans-serif;transition:opacity 0.2s;}
+    .wa-btn:active{opacity:0.85}
 
-    .wa-btn {
-      display:flex;align-items:center;justify-content:center;gap:10px;
-      width:100%;padding:16px;border-radius:var(--radius);
-      background:#128c7e;color:white;
-      font-size:15px;font-weight:700;
-      text-decoration:none;transition:opacity 0.2s;
-      font-family:'Hind Siliguri','Nunito',sans-serif;
-    }
-    .wa-btn:active { opacity:0.85; }
-
-    @keyframes fadeUp {
-      from { opacity:0;transform:translateY(14px); }
-      to   { opacity:1;transform:translateY(0); }
-    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
   </style>
 </head>
 <body>
 <div class="wrapper">
 
-  <!-- ══ FORM SCREEN ══ -->
+  <!-- FORM -->
   <div id="form-screen">
-
-    <!-- Header -->
     <div class="header">
       <div class="brand-name">Freelance<span>Buddy</span></div>
       <div><span class="renew-badge">🔄 সাবস্ক্রিপশন রিনিউ করুন</span></div>
     </div>
 
     <div class="card">
-
-      <!-- Pricing info -->
       <div class="section-label">বর্তমান প্ল্যানের মূল্য</div>
       <div class="pricing-row">
         <div class="price-card">
@@ -305,13 +141,12 @@
 
       <div class="divider"></div>
 
-      <!-- UPI -->
       <div class="upi-row">
         <div class="upi-left">
           <div class="upi-icon">💳</div>
           <div>
             <div class="upi-label">প্রথমে UPI তে পেমেন্ট করুন</div>
-            <div class="upi-id" id="upi-text">REPLACE_UPI_ID</div>
+            <div class="upi-id" id="upi-text">8759580801-4@ybl</div>
           </div>
         </div>
         <button class="copy-pill" id="copy-btn" onclick="copyUPI()">কপি</button>
@@ -319,55 +154,38 @@
 
       <div class="divider"></div>
 
-      <!-- Field — only TG username -->
       <div class="section-label">আপনার তথ্য দিন</div>
       <div class="fields">
         <div class="field-wrap">
-          <div class="field-icon">✈️</div>
+          <div class="field-icon">📱</div>
           <div class="field-inner">
-            <div class="field-label">টেলিগ্রাম ইউজারনেম</div>
-            <input type="text" id="f-tg"
-              placeholder="@username"
-              autocomplete="off" autocorrect="off" autocapitalize="off">
+            <div class="field-label">হোয়াটসঅ্যাপ নম্বর (যোগদানের সময় যেটি দিয়েছিলেন)</div>
+            <input type="tel" id="f-wa" placeholder="আপনার নম্বর লিখুন" inputmode="numeric">
           </div>
         </div>
       </div>
 
-      <!-- Screenshot -->
-      <div class="upload-wrap" id="upload-wrap">
-        <input type="file" id="f-ss" accept="image/*" onchange="onFile(this)">
-        <div class="upload-icon" id="upload-icon">📸</div>
-        <div class="upload-main" id="upload-main">পেমেন্ট স্ক্রিনশট আপলোড করুন</div>
-        <div class="upload-sub" id="upload-sub">ছবি বেছে নিতে ট্যাপ করুন</div>
-      </div>
-
-      <!-- Notice -->
       <div class="notice">
         <div class="notice-icon">💡</div>
         <div class="notice-text">
           আপনার প্ল্যান অনুযায়ী পেমেন্ট করুন, তারপর ফর্ম জমা দিন।
-          <b>@username অবশ্যই আপনার অ্যাকাউন্টের সাথে মিলতে হবে।</b>
+          <b>যোগদানের সময় যে WhatsApp নম্বর দিয়েছিলেন সেটিই দিন।</b>
         </div>
       </div>
 
-      <!-- Error -->
       <div class="error-box" id="err-box"></div>
 
-      <!-- Submit -->
       <div class="submit-wrap">
         <button class="submit-btn" id="sub-btn" onclick="doSubmit()">
           <div class="spinner" id="spinner"></div>
           <span id="btn-text">রিনিউয়াল জমা করুন →</span>
         </button>
       </div>
+    </div>
+  </div>
 
-    </div><!-- /card -->
-  </div><!-- /form-screen -->
-
-
-  <!-- ══ SUCCESS SCREEN ══ -->
+  <!-- SUCCESS -->
   <div id="success-screen" class="success-screen">
-
     <div class="success-header">
       <div class="success-anim">✅</div>
       <div class="success-title">রিনিউয়াল জমা হয়েছে!</div>
@@ -379,8 +197,8 @@
 
     <div class="result-card">
       <div class="result-row">
-        <div class="result-label">টেলিগ্রাম</div>
-        <div class="result-val" id="r-tg">—</div>
+        <div class="result-label">WhatsApp</div>
+        <div class="result-val" id="r-wa">—</div>
       </div>
       <div class="result-row">
         <div class="result-label">স্ট্যাটাস</div>
@@ -392,35 +210,29 @@
       </div>
     </div>
 
-    <a id="wa-btn" href="#" class="wa-btn" target="_blank">
+    <button class="wa-btn" onclick="openHelp()">
       💬 সাহায্যের জন্য WhatsApp করুন
-    </a>
+    </button>
+  </div>
 
-  </div><!-- /success-screen -->
-
-</div><!-- /wrapper -->
+</div>
 
 <script>
-  /* ══ CONFIG — এই ৩টি মান বদলান ═══════════════════════════ */
   var UPI_ID      = "8759580801-4@ybl";
-  var WHATSAPP    = "6294146285";     // শুধু নম্বর, 91 ছাড়া
+  var WHATSAPP    = "6294146285";
   var BACKEND_URL = "https://freelancebuddy-bot.onrender.com";
-  /* ════════════════════════════════════════════════════════ */
 
   document.getElementById("upi-text").textContent = UPI_ID;
 
   function copyUPI() {
     navigator.clipboard.writeText(UPI_ID).catch(() => {
       var t = document.createElement("textarea");
-      t.value = UPI_ID;
-      document.body.appendChild(t);
-      t.select();
-      document.execCommand("copy");
+      t.value = UPI_ID; document.body.appendChild(t);
+      t.select(); document.execCommand("copy");
       document.body.removeChild(t);
     });
     var btn = document.getElementById("copy-btn");
-    btn.textContent = "হয়েছে ✓";
-    btn.classList.add("copied");
+    btn.textContent = "হয়েছে ✓"; btn.classList.add("copied");
     setTimeout(() => { btn.textContent = "কপি"; btn.classList.remove("copied"); }, 2000);
   }
 
@@ -442,8 +254,8 @@
 
   function setLoading(on) {
     var btn = document.getElementById("sub-btn");
-    document.getElementById("spinner").style.display  = on ? "block" : "none";
-    document.getElementById("btn-text").textContent   = on ? "জমা হচ্ছে…" : "রিনিউয়াল জমা করুন →";
+    document.getElementById("spinner").style.display = on ? "block" : "none";
+    document.getElementById("btn-text").textContent  = on ? "জমা হচ্ছে…" : "রিনিউয়াল জমা করুন →";
     btn.disabled = on;
   }
 
@@ -456,34 +268,32 @@
     });
   }
 
+  function openHelp() {
+    var wa  = document.getElementById("r-wa").textContent;
+    var msg = "হ্যালো! আমি FreelanceBuddy রিনিউয়াল ফর্ম জমা দিয়েছি।\nWhatsApp: " + wa;
+    var url = "https://wa.me/91" + WHATSAPP + "?text=" + encodeURIComponent(msg);
+    var w = window.open(url, "_blank");
+    if (!w || w.closed || typeof w.closed === "undefined") {
+      window.location.href = url;
+    }
+  }
+
   async function doSubmit() {
     document.getElementById("err-box").style.display = "none";
+    var wa = document.getElementById("f-wa").value.trim();
 
-    var tg = document.getElementById("f-tg").value.trim().replace(/^@/, "");
-    var ss = document.getElementById("f-ss").files[0];
-
-    if (!tg) return showErr("টেলিগ্রাম ইউজারনেম দিন");
-    if (!ss) return showErr("পেমেন্ট স্ক্রিনশট আপলোড করুন");
+    if (!wa) return showErr("হোয়াটসঅ্যাপ নম্বর দিন");
 
     setLoading(true);
-
     try {
-      var b64  = await toBase64(ss);
       var resp = await fetch(BACKEND_URL + "/renew", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ tg: tg, ss: b64, ss_name: ss.name })
+        body: JSON.stringify({ wa: wa })
       });
-
       var data = await resp.json();
-
       if (data.success) {
-        document.getElementById("r-tg").textContent = "@" + tg;
-        document.getElementById("wa-btn").href =
-          "https://wa.me/91" + WHATSAPP +
-          "?text=" + encodeURIComponent(
-            "হ্যালো! আমি FreelanceBuddy রিনিউয়াল ফর্ম জমা দিয়েছি।\nTelegram: @" + tg
-          );
+        document.getElementById("r-wa").textContent = wa;
         document.getElementById("form-screen").style.display    = "none";
         document.getElementById("success-screen").style.display = "block";
         window.scrollTo({top:0, behavior:"smooth"});
