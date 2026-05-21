@@ -385,13 +385,6 @@
         </div>
       </div>
 
-      <div class="upload-wrap" id="upload-wrap">
-        <input type="file" id="f-ss" accept="image/*" onchange="onFile(this)">
-        <div class="upload-icon" id="upload-icon">📸</div>
-        <div class="upload-main" id="upload-main">পেমেন্ট স্ক্রিনশট আপলোড করুন</div>
-        <div class="upload-sub" id="upload-sub">ছবি বেছে নিতে ট্যাপ করুন</div>
-      </div>
-
       <div class="notice">
         <div class="notice-icon">ℹ️</div>
         <div class="notice-text">
@@ -553,25 +546,21 @@
     var name = document.getElementById("f-name").value.trim();
     var tg   = document.getElementById("f-tg").value.trim().replace(/^@/, "");
     var wa   = document.getElementById("f-wa").value.trim();
-    var ss   = document.getElementById("f-ss").files[0];
 
     if (!name) return showErr("আপনার পুরো নাম লিখুন");
     if (!tg)   return showErr("টেলিগ্রাম ইউজারনেম দিন");
     if (!wa)   return showErr("হোয়াটসঅ্যাপ নম্বর দিন");
-    if (!ss)   return showErr("পেমেন্ট স্ক্রিনশট আপলোড করুন");
 
     setLoading(true);
 
     try {
-      var b64  = await toBase64(ss);
       var plan = selectedPlan === "b" ? "pro" : "basic";
 
       var resp = await fetch(BACKEND_URL + "/submit", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-          name: name, tg: tg, wa: wa,
-          plan: plan, ss: b64, ss_name: ss.name
+          name: name, tg: tg, wa: wa, plan: plan
         })
       });
 
