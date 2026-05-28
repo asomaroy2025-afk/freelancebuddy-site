@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FreelanceBuddy — সাবস্ক্রাইব করুন - V1</title>
+  <title>FreelanceBuddy — সাবস্ক্রাইব করুন</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -570,34 +570,42 @@
           </div>
         </div>
 
-        <!-- Telegram -->
+        <!-- Telegram — paste only, bulletproof -->
         <div class="field-group">
           <div class="field-label">
             <span class="lbl-icon">✈️</span>
             টেলিগ্রাম ইউজারনেম
           </div>
-          <div class="field-input" id="wrap-tg">
+          <!-- Hidden real input — never focused directly -->
+          <input type="text" id="f-tg" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;">
+          <!-- Visual display box -->
+          <div class="field-input" id="wrap-tg" style="cursor:pointer;" onclick="triggerTGPaste()">
             <div class="input-prefix">@</div>
-            <input type="text" id="f-tg"
-              placeholder="Paste করুন"
-              autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-              readonly
-              onclick="this.removeAttribute('readonly')"
-              onkeydown="onTGKeydown(event)"
-              onpaste="onTGPaste(event)"
-              oninput="onTGInput(this)"
-              onfocus="showTGTip(true);this.removeAttribute('readonly')"
-              onblur="showTGTip(false)">
+            <div id="tg-display" style="flex:1;padding:14px 14px;font-size:15px;font-weight:600;color:var(--text3);min-height:50px;display:flex;align-items:center;">
+              Paste করুন
+            </div>
             <div class="field-status" id="stat-tg"></div>
           </div>
-          <div class="tg-tip" id="tg-tip">
-            শুধু <b>Copy & Paste</b> করুন — সরাসরি টাইপ করবেন না।
+          <!-- Paste button -->
+          <button type="button" id="tg-paste-btn" onclick="triggerTGPaste()" style="
+            width:100%;padding:11px;
+            background:#eff6ff;border:1.5px solid #bfdbfe;
+            border-radius:8px;cursor:pointer;
+            font-size:13px;font-weight:700;color:#1d4ed8;
+            font-family:'Plus Jakarta Sans','Hind Siliguri',sans-serif;
+            display:flex;align-items:center;justify-content:center;gap:6px;
+            transition:all 0.18s;">
+            📋 Telegram Username Paste করুন
+          </button>
+          <div class="tg-tip" id="tg-tip" style="display:block;">
+            শুধু <b>Paste</b> করুন — সরাসরি টাইপ করা যাবে না।
             <div class="tip-steps">
-              <span class="step-pill">Telegram খুলুন</span> →
+              <span class="step-pill">Telegram</span> →
               <span class="step-pill">Settings</span> →
               <span class="step-pill">My Account</span> →
-              <span class="step-pill">Username → Copy</span> →
-              <span class="step-pill">এখানে Paste করুন</span>
+              <span class="step-pill">Username</span> →
+              <span class="step-pill">Copy</span> →
+              <span class="step-pill">এখানে Paste</span>
             </div>
           </div>
         </div>
@@ -748,46 +756,69 @@
     s.textContent = ok ? "✅" : "";
   }
 
-  /* ── TELEGRAM ── */
-  function showTGTip(show) {
-    var tip = document.getElementById("tg-tip");
-    var val = document.getElementById("f-tg").value.trim();
-    if (show && !val) tip.style.display = "block";
-    else if (!show) setTimeout(() => { tip.style.display="none"; }, 200);
-  }
-  function onTGKeydown(e) {
-    /* Allow only: Backspace, Delete, Tab, Enter, arrows, Ctrl/Cmd+V */
-    var allowed = ["Backspace","Delete","Tab","Enter","ArrowLeft","ArrowRight","Home","End"];
-    var isPaste = (e.ctrlKey||e.metaKey) && (e.key==="v"||e.key==="V");
-    var isSelect = (e.ctrlKey||e.metaKey) && (e.key==="a"||e.key==="A");
-    if (!allowed.includes(e.key) && !isPaste && !isSelect && !e.ctrlKey && !e.metaKey) {
-      e.preventDefault();
-      document.getElementById("tg-tip").style.display = "block";
-      /* Shake the field */
-      var w = document.getElementById("wrap-tg");
-      w.style.animation = "none";
-      w.offsetHeight;
-      w.style.animation = "shake 0.3s ease";
+  /* ── TELEGRAM — PASTE ONLY (bulletproof) ── */
+  function triggerTGPaste() {
+    /* Use Clipboard API to read clipboard — works on mobile */
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      navigator.clipboard.readText().then(function(text) {
+        setTGValue(text);
+      }).catch(function() {
+        /* Fallback: create temp input, focus it, let user paste */
+        showManualPasteBox();
+      });
+    } else {
+      showManualPasteBox();
     }
   }
-  function onTGPaste(e) {
-    e.preventDefault();
-    var raw = (e.clipboardData||window.clipboardData).getData("text").trim();
-    raw = raw.replace(/^@+/, "").replace(/\s+/g,"");
-    document.getElementById("f-tg").value = raw;
-    document.getElementById("tg-tip").style.display = "none";
-    onTGInput(document.getElementById("f-tg"));
+
+  function showManualPasteBox() {
+    /* Create a temporary textarea for paste on older browsers */
+    var box = document.getElementById("tg-manual-box");
+    if (!box) {
+      box = document.createElement("textarea");
+      box.id = "tg-manual-box";
+      box.placeholder = "এখানে Paste করুন (Ctrl+V / Long press → Paste)";
+      box.style.cssText = "width:100%;padding:12px;margin-top:8px;border:2px solid #2563eb;border-radius:10px;font-size:15px;font-family:inherit;resize:none;height:60px;outline:none;";
+      box.addEventListener("input", function() {
+        setTGValue(box.value);
+        setTimeout(() => { box.remove(); }, 500);
+      });
+      document.getElementById("tg-paste-btn").after(box);
+    }
+    box.focus();
   }
-  function onTGInput(inp) {
-    /* If user somehow typed, clear it and show tip */
-    var v = inp.value.replace(/^@+/,"").trim();
-    var w = document.getElementById("wrap-tg");
-    var s = document.getElementById("stat-tg");
-    if (!v) { w.classList.remove("is-valid","has-error"); s.textContent=""; return; }
-    var ok = /^[a-zA-Z][a-zA-Z0-9_]{4,31}$/.test(v);
-    w.classList.toggle("is-valid", ok);
+
+  function setTGValue(raw) {
+    raw = raw.trim().replace(/^@+/, "").replace(/\s+/g, "");
+    document.getElementById("f-tg").value = raw;
+    var display = document.getElementById("tg-display");
+    var w       = document.getElementById("wrap-tg");
+    var s       = document.getElementById("stat-tg");
+    var tip     = document.getElementById("tg-tip");
+    var btn     = document.getElementById("tg-paste-btn");
+
+    if (!raw) {
+      display.textContent = "Paste করুন";
+      display.style.color = "var(--text3)";
+      w.classList.remove("is-valid","has-error");
+      s.textContent = "";
+      return;
+    }
+
+    var ok = /^[a-zA-Z][a-zA-Z0-9_]{4,31}$/.test(raw);
+    display.textContent = "@" + raw;
+    display.style.color = ok ? "var(--text)" : "var(--red)";
+    display.style.fontWeight = "700";
+    w.classList.toggle("is-valid",  ok);
     w.classList.toggle("has-error", !ok);
     s.textContent = ok ? "✅" : "❌";
+    tip.style.display = ok ? "none" : "block";
+
+    /* Change button to re-paste */
+    btn.textContent = ok ? "✅ সঠিক Username — পরিবর্তন করতে আবার Paste করুন" : "❌ ভুল Username — আবার Paste করুন";
+    btn.style.background = ok ? "#ecfdf5" : "#fef2f2";
+    btn.style.borderColor = ok ? "#86efac" : "#fecaca";
+    btn.style.color = ok ? "#15803d" : "#dc2626";
   }
 
   /* ── SCREENSHOT ── */
