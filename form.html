@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FreelanceBuddy — সাবস্ক্রাইব করুন</title>
+  <title>FreelanceBuddy — সাবস্ক্রাইব করুন - V1</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -63,21 +63,21 @@
     /* ── HEADER ── */
     .header {
       text-align:center;
-      margin-bottom:24px;
+      margin-bottom:16px;
     }
     .logo-row {
       display:flex;
       align-items:center;
       justify-content:center;
       gap:10px;
-      margin-bottom:8px;
+      margin-bottom:4px;
     }
     .logo-icon {
-      width:42px; height:42px;
+      width:38px; height:38px;
       background:var(--primary);
-      border-radius:12px;
+      border-radius:10px;
       display:flex; align-items:center; justify-content:center;
-      font-size:20px;
+      font-size:18px;
       box-shadow:0 4px 12px rgba(37,99,235,0.3);
     }
     .brand-name {
@@ -85,12 +85,15 @@
       font-weight:800;
       color:var(--text);
       letter-spacing:-0.5px;
+      line-height:1;
     }
     .brand-name span { color:var(--primary); }
     .header-sub {
-      font-size:14px;
+      font-size:13px;
       color:var(--text2);
       font-weight:500;
+      line-height:1;
+      margin-top:2px;
     }
 
     /* Trust badges */
@@ -98,8 +101,8 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:16px;
-      margin-top:14px;
+      gap:14px;
+      margin-top:8px;
     }
     .trust-item {
       display:flex;
@@ -286,6 +289,25 @@
       padding:2px 7px; font-size:11px;
     }
     .field-hint { font-size:11px; color:var(--text3); font-weight:500; }
+
+    /* SS Upload */
+    .upload-wrap {
+      border:2px dashed var(--border);
+      border-radius:var(--radius-sm);
+      padding:18px;
+      text-align:center;
+      cursor:pointer;
+      position:relative;
+      transition:all 0.18s ease;
+      background:var(--bg);
+    }
+    .upload-wrap:hover { border-color:#93c5fd; background:#f8faff; }
+    .upload-wrap.has-file { border-color:var(--green); border-style:solid; background:var(--green-lt); }
+    .upload-wrap input { position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%; }
+    .upload-icon { font-size:24px; margin-bottom:5px; }
+    .upload-main { font-size:14px; font-weight:700; color:var(--text); margin-bottom:2px; }
+    .upload-sub { font-size:12px; color:var(--text3); }
+    .upload-sub.ready { color:var(--green); font-weight:600; }
 
     /* Notice */
     .notice {
@@ -557,12 +579,14 @@
           <div class="field-input" id="wrap-tg">
             <div class="input-prefix">@</div>
             <input type="text" id="f-tg"
-              placeholder="username"
+              placeholder="Paste করুন"
               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+              readonly
+              onclick="this.removeAttribute('readonly')"
               onkeydown="onTGKeydown(event)"
               onpaste="onTGPaste(event)"
               oninput="onTGInput(this)"
-              onfocus="showTGTip(true)"
+              onfocus="showTGTip(true);this.removeAttribute('readonly')"
               onblur="showTGTip(false)">
             <div class="field-status" id="stat-tg"></div>
           </div>
@@ -593,6 +617,20 @@
             <div class="field-status" id="stat-wa"></div>
           </div>
           <div class="field-hint">১০ সংখ্যার নম্বর — 6, 7, 8 বা 9 দিয়ে শুরু</div>
+        </div>
+
+        <!-- Screenshot -->
+        <div class="field-group">
+          <div class="field-label">
+            <span class="lbl-icon">📸</span>
+            পেমেন্ট স্ক্রিনশট
+          </div>
+          <div class="upload-wrap" id="upload-wrap">
+            <input type="file" id="f-ss" accept="image/*" onchange="onSSFile(this)">
+            <div class="upload-icon" id="ss-icon">📸</div>
+            <div class="upload-main" id="ss-main">স্ক্রিনশট আপলোড করুন</div>
+            <div class="upload-sub" id="ss-sub">ট্যাপ করুন • JPG বা PNG</div>
+          </div>
         </div>
 
       </div>
@@ -718,22 +756,30 @@
     else if (!show) setTimeout(() => { tip.style.display="none"; }, 200);
   }
   function onTGKeydown(e) {
-    var allowed = ["Backspace","Delete","Tab","Enter","ArrowLeft","ArrowRight","Control","Meta","Shift","Home","End"];
-    var isPaste = (e.ctrlKey||e.metaKey) && e.key==="v";
-    if (!allowed.includes(e.key) && !isPaste) {
+    /* Allow only: Backspace, Delete, Tab, Enter, arrows, Ctrl/Cmd+V */
+    var allowed = ["Backspace","Delete","Tab","Enter","ArrowLeft","ArrowRight","Home","End"];
+    var isPaste = (e.ctrlKey||e.metaKey) && (e.key==="v"||e.key==="V");
+    var isSelect = (e.ctrlKey||e.metaKey) && (e.key==="a"||e.key==="A");
+    if (!allowed.includes(e.key) && !isPaste && !isSelect && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
       document.getElementById("tg-tip").style.display = "block";
+      /* Shake the field */
+      var w = document.getElementById("wrap-tg");
+      w.style.animation = "none";
+      w.offsetHeight;
+      w.style.animation = "shake 0.3s ease";
     }
   }
   function onTGPaste(e) {
     e.preventDefault();
     var raw = (e.clipboardData||window.clipboardData).getData("text").trim();
-    raw = raw.replace(/^@+/, "");
+    raw = raw.replace(/^@+/, "").replace(/\s+/g,"");
     document.getElementById("f-tg").value = raw;
     document.getElementById("tg-tip").style.display = "none";
     onTGInput(document.getElementById("f-tg"));
   }
   function onTGInput(inp) {
+    /* If user somehow typed, clear it and show tip */
     var v = inp.value.replace(/^@+/,"").trim();
     var w = document.getElementById("wrap-tg");
     var s = document.getElementById("stat-tg");
@@ -742,6 +788,25 @@
     w.classList.toggle("is-valid", ok);
     w.classList.toggle("has-error", !ok);
     s.textContent = ok ? "✅" : "❌";
+  }
+
+  /* ── SCREENSHOT ── */
+  function onSSFile(input) {
+    if (!input.files[0]) return;
+    document.getElementById("ss-icon").textContent = "✅";
+    document.getElementById("ss-main").textContent = input.files[0].name;
+    document.getElementById("ss-sub").textContent  = "স্ক্রিনশট প্রস্তুত";
+    document.getElementById("ss-sub").className    = "upload-sub ready";
+    document.getElementById("upload-wrap").classList.add("has-file");
+  }
+
+  function toBase64(file) {
+    return new Promise((res,rej) => {
+      var r = new FileReader();
+      r.onload  = () => res(r.result.split(",")[1]);
+      r.onerror = () => rej(new Error("ফাইল পড়া যায়নি"));
+      r.readAsDataURL(file);
+    });
   }
 
   /* ── WHATSAPP ── */
@@ -778,6 +843,7 @@
     var name = document.getElementById("f-name").value.trim();
     var tg   = document.getElementById("f-tg").value.trim().replace(/^@/,"");
     var wa   = document.getElementById("f-wa").value.trim();
+    var ss   = document.getElementById("f-ss").files[0];
 
     if (!name || name.length < 2)  return showErr("আপনার পুরো নাম লিখুন (কমপক্ষে ২ অক্ষর)");
     if (/\d/.test(name))           return showErr("নামে সংখ্যা ব্যবহার করা যাবে না");
@@ -785,13 +851,15 @@
     if (!/^[a-zA-Z][a-zA-Z0-9_]{4,31}$/.test(tg)) return showErr("সঠিক ইউজারনেম দিন। Telegram → Settings → Username → Copy → Paste");
     if (!wa || wa.length !== 10)   return showErr("১০ সংখ্যার WhatsApp নম্বর দিন");
     if (!/^[6-9]/.test(wa))        return showErr("সঠিক নম্বর দিন — 6, 7, 8 বা 9 দিয়ে শুরু হওয়া উচিত");
+    if (!ss)                       return showErr("পেমেন্ট স্ক্রিনশট আপলোড করুন");
 
     setLoading(true);
     try {
+      var b64 = await toBase64(ss);
       var r = await fetch(BACKEND_URL + "/submit", {
         method:"POST",
         headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({ name, tg, wa, plan:selectedPlan })
+        body:JSON.stringify({ name, tg, wa, plan:selectedPlan, ss:b64, ss_name:ss.name })
       });
       var d = await r.json();
       if (d.success) {
