@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f2f2f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>FreelanceBuddy V1</title>
+  <title>FreelanceBuddy V2</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -394,7 +394,7 @@
         <div class="plan-sub">Sproutgigs জব নোটিফিকেশন</div>
       </div>
 
-      <div class="plan-card selected" id="plan-buyer" onclick="selectPlan('buyer',this)">
+      <div class="plan-card" id="plan-buyer" onclick="selectPlan('buyer',this)">
         <div class="plan-tick">✓</div>
         <div class="plan-amount"><sup>₹</sup>9</div>
         <div class="plan-label">Buyer Watch</div>
@@ -419,7 +419,7 @@
         </div>
         <div class="payment-info">
           <div class="payment-label">পরিশোধযোগ্য পরিমাণ</div>
-          <div class="payment-amount" id="pay-amount">₹9</div>
+          <div class="payment-amount" id="pay-amount" style="font-size:20px;color:var(--ios-gray);">প্ল্যান বেছে নিন</div>
           <div class="payment-note">QR স্ক্যান করুন যেকোনো<br>UPI অ্যাপ দিয়ে</div>
         </div>
       </div>
@@ -572,7 +572,7 @@
   var PLAN_PRICES = { sg:30, buyer:9, mw:30 };
   /* ════════════════════════════════════════════════════════ */
 
-  var selectedPlan = "buyer";
+  var selectedPlan = null;
   var waMsg = "";
 
   /* ── PLAN ── */
@@ -581,6 +581,8 @@
     document.querySelectorAll(".plan-card").forEach(x => x.classList.remove("selected"));
     el.classList.add("selected");
     document.getElementById("pay-amount").textContent = "₹" + PLAN_PRICES[p];
+    document.getElementById("pay-amount").style.fontSize = "36px";
+    document.getElementById("pay-amount").style.color = "var(--ios-blue)";
   }
 
   /* ── NAME ── */
@@ -692,6 +694,7 @@
     var wa   = document.getElementById("f-wa").value.trim();
     var ss   = document.getElementById("f-ss").files[0];
 
+    if (!selectedPlan)              return showErr("প্রথমে একটি প্ল্যান বেছে নিন");
     if (!name || name.length < 2)  return showErr("আপনার পুরো নাম লিখুন");
     if (/\d/.test(name))           return showErr("নামে সংখ্যা ব্যবহার করা যাবে না");
     if (!tg)                       return showErr("Telegram username Paste করুন");
