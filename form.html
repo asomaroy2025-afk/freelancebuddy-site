@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f2f2f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>FreelanceBuddy V2</title>
+  <title>FreelanceBuddy R1</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -391,14 +391,14 @@
         <div class="plan-tick">✓</div>
         <div class="plan-amount"><sup>₹</sup>30</div>
         <div class="plan-label">SG Alert</div>
-        <div class="plan-sub">Sproutgigs জব নোটিফিকেশন</div>
+        <div class="plan-sub">শুধু Sproutgigs জব অ্যালার্ট</div>
       </div>
 
-      <div class="plan-card" id="plan-buyer" onclick="selectPlan('buyer',this)">
+      <div class="plan-card" id="plan-sg_pro" onclick="selectPlan('sg_pro',this)">
         <div class="plan-tick">✓</div>
-        <div class="plan-amount"><sup>₹</sup>9</div>
-        <div class="plan-label">Buyer Watch</div>
-        <div class="plan-sub">বায়ার অ্যাক্টিভিটি ট্র্যাকার</div>
+        <div class="plan-amount"><sup>₹</sup>39</div>
+        <div class="plan-label">SG + Buyer</div>
+        <div class="plan-sub">SG Alert + Buyer Watcher</div>
       </div>
 
       <div class="plan-card" id="plan-mw" onclick="selectPlan('mw',this)">
@@ -522,38 +522,109 @@
 
 <!-- ══ SUCCESS SCREEN ══ -->
 <div id="success-screen" class="success-screen">
+  <div style="
+    min-height:100vh; min-height:100dvh;
+    background:var(--ios-bg);
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding:32px 20px;
+    text-align:center;
+  ">
 
-  <div class="success-hero">
-    <div class="success-checkmark">✓</div>
-    <div class="success-title">ফর্ম জমা হয়েছে!</div>
-    <div class="success-sub">নিচের ধাপগুলো অনুসরণ করুন</div>
-  </div>
+    <!-- Big tick -->
+    <div style="
+      width:90px; height:90px;
+      background:var(--ios-green);
+      border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:44px; color:white;
+      margin-bottom:20px;
+      animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+      box-shadow:0 8px 24px rgba(52,199,89,0.35);
+    ">✓</div>
 
-  <div class="success-steps">
-
-    <div class="step-card">
-      <div class="step-item">
-        <div class="step-num">১</div>
-        <div class="step-text">নিচের বাটনে ক্লিক করুন → <b>Send Join Request</b> ট্যাপ করুন</div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">২</div>
-        <div class="step-text">আমরা আপনার <b>নাম ও পেমেন্ট</b> ব্যাংক রেকর্ডের সাথে যাচাই করব</div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">৩</div>
-        <div class="step-text">যাচাই হলে <b>জয়েন রিকোয়েস্ট অ্যাপ্রুভ</b> করা হবে — <b>১ ঘণ্টার মধ্যে</b></div>
-      </div>
+    <div style="font-size:24px;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-0.3px;">
+      ফর্ম জমা হয়েছে!
+    </div>
+    <div style="font-size:15px;color:var(--ios-gray);margin-bottom:36px;line-height:1.5;">
+      নিচের বাটনে ক্লিক করে চ্যানেলে<br>জয়েন রিকোয়েস্ট পাঠান
     </div>
 
-    <button id="btn-sg"    class="join-btn btn-channel" onclick="openLink(LINKS.sg)"    style="display:none">⚡ SG Alert চ্যানেলে যোগ দিন</button>
-    <button id="btn-buyer" class="join-btn btn-channel" onclick="openLink(LINKS.buyer)" style="display:none">👀 Buyer Watcher চ্যানেলে যোগ দিন</button>
-    <button id="btn-mw"    class="join-btn btn-channel" onclick="openLink(LINKS.mw)"    style="display:none">🌐 MW Alert চ্যানেলে যোগ দিন</button>
-    <button class="join-btn btn-wa" onclick="openWA()">💬 সমস্যা হলে WhatsApp করুন</button>
+    <!-- Join buttons — shown based on plan -->
+    <div style="width:100%;max-width:380px;display:flex;flex-direction:column;gap:12px;">
 
-    <div class="approval-card">
-      <div class="ico">⏰</div>
-      <div class="txt"><b>অ্যাপ্রুভালের সময়: সকাল ৯টা – রাত ১০টা।</b> এর বাইরে সাবমিট করলে পরের সকালে অ্যাপ্রুভ হবে।</div>
+      <button id="btn-sg" onclick="onJoinClick('sg')" style="display:none;
+        width:100%;padding:18px 20px;
+        background:var(--ios-blue);color:white;border:none;
+        border-radius:var(--radius-lg);
+        font-size:18px;font-weight:700;
+        font-family:'Hind Siliguri','Inter',sans-serif;
+        cursor:pointer;letter-spacing:0.1px;
+        box-shadow:0 4px 16px rgba(0,122,255,0.35);
+        transition:opacity 0.15s,transform 0.1s;
+      ">⚡ Join SG Alert Channel</button>
+
+      <button id="btn-sg_pro_1" onclick="onJoinClick('sg_pro_sg')" style="display:none;
+        width:100%;padding:18px 20px;
+        background:var(--ios-blue);color:white;border:none;
+        border-radius:var(--radius-lg);
+        font-size:18px;font-weight:700;
+        font-family:'Hind Siliguri','Inter',sans-serif;
+        cursor:pointer;letter-spacing:0.1px;
+        box-shadow:0 4px 16px rgba(0,122,255,0.35);
+        transition:opacity 0.15s,transform 0.1s;
+      ">⚡ Join SG Alert Channel</button>
+
+      <button id="btn-sg_pro_2" onclick="onJoinClick('sg_pro_buyer')" style="display:none;
+        width:100%;padding:18px 20px;
+        background:#5856d6;color:white;border:none;
+        border-radius:var(--radius-lg);
+        font-size:18px;font-weight:700;
+        font-family:'Hind Siliguri','Inter',sans-serif;
+        cursor:pointer;letter-spacing:0.1px;
+        box-shadow:0 4px 16px rgba(88,86,214,0.35);
+        transition:opacity 0.15s,transform 0.1s;
+      ">👀 Join Buyer Watch Channel</button>
+
+      <button id="btn-mw" onclick="onJoinClick('mw')" style="display:none;
+        width:100%;padding:18px 20px;
+        background:var(--ios-blue);color:white;border:none;
+        border-radius:var(--radius-lg);
+        font-size:18px;font-weight:700;
+        font-family:'Hind Siliguri','Inter',sans-serif;
+        cursor:pointer;letter-spacing:0.1px;
+        box-shadow:0 4px 16px rgba(0,122,255,0.35);
+        transition:opacity 0.15s,transform 0.1s;
+      ">🌐 Join MW Alert Channel</button>
+
+      <button onclick="openWA()" style="
+        width:100%;padding:16px 20px;
+        background:var(--ios-green-lt);color:#1a7a34;
+        border:1.5px solid #a7f3c0;
+        border-radius:var(--radius-lg);
+        font-size:16px;font-weight:600;
+        font-family:'Hind Siliguri','Inter',sans-serif;
+        cursor:pointer;margin-top:4px;
+      ">💬 WhatsApp Admin</button>
+
+    </div>
+
+    <!-- Not clicked warning -->
+    <div id="join-warning" style="
+      display:none;margin-top:20px;
+      background:var(--ios-red-lt);
+      border:1.5px solid #ffcdd2;
+      border-radius:var(--radius);
+      padding:12px 16px;
+      font-size:14px;color:var(--ios-red);
+      font-weight:500;line-height:1.5;
+      max-width:380px;width:100%;
+    ">
+      ⚠️ চ্যানেলে জয়েন রিকোয়েস্ট না পাঠালে অ্যাক্সেস পাবেন না। উপরের বাটনে ক্লিক করুন।
+    </div>
+
+    <div style="margin-top:20px;font-size:13px;color:var(--ios-gray2);line-height:1.6;">
+      অ্যাপ্রুভাল সময়: সকাল ৯টা – রাত ১০টা
     </div>
 
   </div>
@@ -569,11 +640,12 @@
   };
   var WHATSAPP    = "6294146285";
   var BACKEND_URL = "https://freelancebuddy-bot.onrender.com";
-  var PLAN_PRICES = { sg:30, buyer:9, mw:30 };
+  var PLAN_PRICES = { sg:30, sg_pro:39, mw:30 };
   /* ════════════════════════════════════════════════════════ */
 
   var selectedPlan = null;
-  var waMsg = "";
+  var waMsg        = "";
+  var joinedLinks  = {};   // tracks which buttons clicked
 
   /* ── PLAN ── */
   function selectPlan(p, el) {
@@ -583,6 +655,43 @@
     document.getElementById("pay-amount").textContent = "₹" + PLAN_PRICES[p];
     document.getElementById("pay-amount").style.fontSize = "36px";
     document.getElementById("pay-amount").style.color = "var(--ios-blue)";
+  }
+
+  /* ── JOIN BUTTON CLICK — track + open link ── */
+  function onJoinClick(type) {
+    joinedLinks[type] = true;
+    var url = "";
+    if (type === "sg")         url = LINKS.sg;
+    if (type === "sg_pro_sg")  url = LINKS.sg;
+    if (type === "sg_pro_buyer") url = LINKS.buyer;
+    if (type === "mw")         url = LINKS.mw;
+    openLink(url);
+
+    /* Mark button as clicked — green */
+    var btnMap = {
+      sg: "btn-sg", sg_pro_sg: "btn-sg_pro_1",
+      sg_pro_buyer: "btn-sg_pro_2", mw: "btn-mw"
+    };
+    var btn = document.getElementById(btnMap[type]);
+    if (btn) {
+      btn.style.background = "var(--ios-green)";
+      btn.style.boxShadow  = "0 4px 16px rgba(52,199,89,0.35)";
+      btn.textContent      = "✅ " + btn.textContent.replace("✅ ","");
+    }
+    document.getElementById("join-warning").style.display = "none";
+  }
+
+  /* ── BACK BUTTON PREVENTION ── */
+  function enableBackPrevention() {
+    /* Push extra state so back button stays on success page */
+    history.pushState({page:"success"}, "");
+    window.onpopstate = function(e) {
+      /* Show warning instead of going back */
+      document.getElementById("join-warning").style.display = "block";
+      document.getElementById("join-warning").scrollIntoView({behavior:"smooth",block:"center"});
+      /* Push state again to keep them here */
+      history.pushState({page:"success"}, "");
+    };
   }
 
   /* ── NAME ── */
@@ -734,13 +843,27 @@
   }
 
   function showSuccess(plan, name, tg) {
-    if (plan==="sg")    document.getElementById("btn-sg").style.display    = "flex";
-    if (plan==="buyer") document.getElementById("btn-buyer").style.display = "flex";
-    if (plan==="mw")    document.getElementById("btn-mw").style.display    = "flex";
+    /* Show correct buttons based on plan */
+    if (plan === "sg") {
+      document.getElementById("btn-sg").style.display = "block";
+    }
+    if (plan === "sg_pro") {
+      document.getElementById("btn-sg_pro_1").style.display = "block";
+      document.getElementById("btn-sg_pro_2").style.display = "block";
+    }
+    if (plan === "mw") {
+      document.getElementById("btn-mw").style.display = "block";
+    }
+
     waMsg = "হ্যালো! FreelanceBuddy ফর্ম জমা দিয়েছি।\nনাম: "+name+"\nTelegram: @"+tg;
+
+    /* Switch screens */
     document.getElementById("form-screen").style.display    = "none";
     document.getElementById("success-screen").style.display = "block";
-    window.scrollTo({top:0,behavior:"smooth"});
+    window.scrollTo({top:0, behavior:"smooth"});
+
+    /* Enable back prevention */
+    enableBackPrevention();
   }
 </script>
 </body>
