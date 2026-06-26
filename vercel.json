@@ -1,7 +1,7 @@
 {
-  "cleanUrls": true,
   "rewrites": [
-    { "source": "/form",  "destination": "/form.html"  },
-    { "source": "/renew", "destination": "/renew.html" }
+    { "source": "/",          "destination": "/form.html"      },
+    { "source": "/join",      "destination": "/form.html"      },
+    { "source": "/mw-renew",  "destination": "/mw-renew.html"  }
   ]
 }
