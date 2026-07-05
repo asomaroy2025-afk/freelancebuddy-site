@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2f2f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FreelanceBuddy — MW Renewalv1</title>
+  <title>FreelanceBuddy — MW Renewal V2</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -260,6 +260,7 @@
     align-items:center;justify-content:center;
     padding:32px 20px;text-align:center;
   ">
+    <!-- Tick -->
     <div style="
       width:90px;height:90px;background:var(--ios-green);
       border-radius:50%;display:flex;align-items:center;
@@ -272,20 +273,50 @@
     <div style="font-size:24px;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-0.3px;">
       রিনিউয়াল জমা হয়েছে!
     </div>
-    <div style="font-size:15px;color:var(--ios-gray);margin-bottom:8px;line-height:1.6;">
-      আমরা পেমেন্ট যাচাই করে<br>আপনার অ্যাক্সেস রিনিউ করব।
+    <div style="font-size:15px;color:var(--ios-gray);margin-bottom:6px;line-height:1.6;">
+      নিচের বাটনে ক্লিক করে চ্যানেলে<br>জয়েন রিকোয়েস্ট পাঠান
     </div>
-    <div id="success-name" style="font-size:17px;font-weight:700;color:var(--ios-blue);margin-bottom:32px;"></div>
+    <div id="success-name" style="font-size:17px;font-weight:700;color:var(--ios-blue);margin-bottom:28px;"></div>
 
-    <button onclick="openWA()" style="
-      width:100%;max-width:380px;padding:16px 20px;
-      background:var(--ios-green-lt);color:#1a7a34;
-      border:1.5px solid #a7f3c0;
-      border-radius:var(--radius-lg);
-      font-size:16px;font-weight:600;
-      font-family:'Hind Siliguri','Inter',sans-serif;
-      cursor:pointer;
-    ">💬 WhatsApp Admin</button>
+    <!-- Buttons -->
+    <div style="width:100%;max-width:380px;display:flex;flex-direction:column;gap:12px;">
+
+      <button id="btn-mw-join" onclick="onJoinClick()" style="
+        width:100%;padding:18px 20px;
+        background:var(--ios-blue);color:white;border:none;
+        border-radius:var(--radius-lg);
+        font-size:18px;font-weight:700;
+        font-family:'Hind Siliguri','Inter',sans-serif;
+        cursor:pointer;
+        box-shadow:0 4px 16px rgba(0,122,255,0.35);
+        transition:opacity 0.15s,transform 0.1s;
+      ">🌐 Join MW Alert Channel</button>
+
+      <button onclick="openWA()" style="
+        width:100%;padding:16px 20px;
+        background:var(--ios-green-lt);color:#1a7a34;
+        border:1.5px solid #a7f3c0;
+        border-radius:var(--radius-lg);
+        font-size:16px;font-weight:600;
+        font-family:'Hind Siliguri','Inter',sans-serif;
+        cursor:pointer;
+      ">💬 WhatsApp Admin</button>
+
+    </div>
+
+    <!-- Back warning -->
+    <div id="join-warning" style="
+      display:none;margin-top:20px;
+      background:var(--ios-red-lt);
+      border:1.5px solid #ffcdd2;
+      border-radius:var(--radius);
+      padding:12px 16px;
+      font-size:14px;color:var(--ios-red);
+      font-weight:500;line-height:1.5;
+      max-width:380px;width:100%;
+    ">
+      ⚠️ চ্যানেলে জয়েন রিকোয়েস্ট না পাঠালে অ্যাক্সেস পাবেন না। উপরের বাটনে ক্লিক করুন।
+    </div>
 
     <div style="margin-top:20px;font-size:13px;color:var(--ios-gray2);">
       অ্যাপ্রুভাল সময়: সকাল ৯টা – রাত ১০টা
@@ -298,6 +329,7 @@
   /* ══ CONFIG ══════════════════════════════════════ */
   var WHATSAPP    = "6294146285";
   var BACKEND_URL = "https://freelancebuddy-bot.onrender.com";
+  var MW_LINK     = "https://t.me/+1Xl9mPrD8UE5NTc1";
   /* ════════════════════════════════════════════════ */
 
   var memberData   = null;   // data fetched from sheet
@@ -453,6 +485,7 @@
         document.getElementById("form-screen").style.display    = "none";
         document.getElementById("success-screen").style.display = "block";
         window.scrollTo({top:0,behavior:"smooth"});
+        enableBackPrevention();
       } else {
         showErr(data.error || "কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।");
         setLoading(false);
@@ -461,6 +494,25 @@
       showErr("ইন্টারনেট সংযোগ সমস্যা। আবার চেষ্টা করুন।");
       setLoading(false);
     }
+  }
+
+  function onJoinClick() {
+    var btn = document.getElementById("btn-mw-join");
+    btn.style.background  = "var(--ios-green)";
+    btn.style.boxShadow   = "0 4px 16px rgba(52,199,89,0.35)";
+    btn.textContent       = "✅ Join MW Alert Channel";
+    document.getElementById("join-warning").style.display = "none";
+    var w = window.open(MW_LINK, "_blank");
+    if (!w||w.closed||typeof w.closed==="undefined") window.location.href = MW_LINK;
+  }
+
+  function enableBackPrevention() {
+    history.pushState({page:"success"}, "");
+    window.onpopstate = function() {
+      document.getElementById("join-warning").style.display = "block";
+      document.getElementById("join-warning").scrollIntoView({behavior:"smooth",block:"center"});
+      history.pushState({page:"success"}, "");
+    };
   }
 
   function openWA() {
