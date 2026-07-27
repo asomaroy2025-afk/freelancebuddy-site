@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2f2f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FreelanceBuddy</title>
+  <title>FreelanceBuddy VF1</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -719,7 +719,25 @@
     });
   }
 
-  /* ── SUBMIT ── */
+  /* ── SUBMIT WITH RETRY ── */
+  async function fetchWithRetry(url, options, retries=3) {
+    for (var i = 0; i < retries; i++) {
+      try {
+        var resp = await fetch(url, options);
+        return resp;
+      } catch(e) {
+        if (i < retries - 1) {
+          // Show waking up message
+          document.getElementById("btn-text").textContent =
+            "সার্ভার জাগছে… (" + (i+1) + "/" + retries + ")";
+          await new Promise(r => setTimeout(r, 5000)); // wait 5s
+        } else {
+          throw e;
+        }
+      }
+    }
+  }
+
   async function doSubmit() {
     document.getElementById("err-box").style.display="none";
     var name = document.getElementById("f-name").value.trim();
@@ -739,14 +757,17 @@
     setLoading(true);
     try {
       var b64  = await toBase64(ss);
-      var resp = await fetch(BACKEND_URL+"/submit",{
+      var resp = await fetchWithRetry(BACKEND_URL+"/submit", {
         method:"POST", headers:{"Content-Type":"application/json"},
         body:JSON.stringify({name,tg,wa,plan:selectedPlanKey,ss:b64,ss_name:ss.name})
       });
       var data = await resp.json();
       if (data.success) { showSuccess(name,tg); }
       else { showErr(data.error||"কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।"); setLoading(false); }
-    } catch(e) { showErr("ইন্টারনেট সংযোগ সমস্যা।"); setLoading(false); }
+    } catch(e) {
+      showErr("সার্ভার সংযোগ হচ্ছে না। একটু অপেক্ষা করে আবার চেষ্টা করুন।");
+      setLoading(false);
+    }
   }
 
   /* ── JOIN BUTTONS ── */
