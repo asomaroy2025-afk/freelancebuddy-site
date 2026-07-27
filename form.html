@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2f2f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FreelanceBuddy VF1</title>
+  <title>FreelanceBuddy VF2</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -305,16 +305,8 @@
         <div class="cat-desc">Microworker জব নোটিফিকেশন সার্ভিস</div>
         <div class="cat-plans">
           <div class="cat-plan-item">
-            <span>TG Only</span>
+            <span>Telegram Alert</span>
             <span class="cat-plan-price">₹30</span>
-          </div>
-          <div class="cat-plan-item">
-            <span>App Only</span>
-            <span class="cat-plan-price">₹30</span>
-          </div>
-          <div class="cat-plan-item">
-            <span>TG + App</span>
-            <span class="cat-plan-price">₹49</span>
           </div>
         </div>
         <div class="cat-select-hint">ট্যাপ করুন →</div>
@@ -353,22 +345,7 @@
           </div>
           <div class="mw-plan-price">₹30</div>
         </div>
-        <div class="mw-plan-row" id="plan-mw_app" onclick="selectPlan('mw_app',30,this)">
-          <div class="mw-radio"></div>
-          <div class="mw-plan-info">
-            <div class="mw-plan-name">App Only</div>
-            <div class="mw-plan-desc">শুধু App নোটিফিকেশন</div>
-          </div>
-          <div class="mw-plan-price">₹30</div>
-        </div>
-        <div class="mw-plan-row" id="plan-mw_both" onclick="selectPlan('mw_both',49,this)">
-          <div class="mw-radio"></div>
-          <div class="mw-plan-info">
-            <div class="mw-plan-name">Telegram + App</div>
-            <div class="mw-plan-desc">TG চ্যানেল + App নোটিফিকেশন</div>
-          </div>
-          <div class="mw-plan-price">₹49</div>
-        </div>
+
       </div>
     </div>
 
@@ -803,8 +780,6 @@
     if (plan==="sg")       document.getElementById("btn-sg").style.display="block";
     if (plan==="sg_pro")   { document.getElementById("btn-sg").style.display="block"; document.getElementById("btn-buyer").style.display="block"; }
     if (plan==="mw_tg")    document.getElementById("btn-mw-tg").style.display="block";
-    if (plan==="mw_app")   document.getElementById("btn-mw-app").style.display="block";
-    if (plan==="mw_both")  { document.getElementById("btn-mw-tg").style.display="block"; document.getElementById("btn-mw-app").style.display="block"; }
 
     waMsg = "হ্যালো! FreelanceBuddy ফর্ম জমা দিয়েছি।\nনাম: "+name+"\nTelegram: @"+tg+"\nপ্ল্যান: "+selectedPlanKey+" ₹"+selectedPrice;
     document.getElementById("form-screen").style.display="none";
