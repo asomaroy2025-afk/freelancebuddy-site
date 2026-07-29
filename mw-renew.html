@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2f2f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FreelanceBuddy — MW Renewal V4</title>
+  <title>FreelanceBuddy — MW Renewal V5</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -377,6 +377,20 @@
   var lookupTimer    = null;
   var waMsg          = "";
 
+  /* ── FETCH WITH RETRY ── */
+  async function fetchWithRetry(url, options, retries=3) {
+    for (var i=0; i<retries; i++) {
+      try {
+        return await fetch(url, options);
+      } catch(e) {
+        if (i < retries-1) {
+          showLookup("loading", "সার্ভার জাগছে… ("+(i+1)+"/"+retries+")");
+          await new Promise(r => setTimeout(r, 5000));
+        } else throw e;
+      }
+    }
+  }
+
   /* ── WA LOOKUP ── */
   function onWAInput(inp) {
     inp.value = inp.value.replace(/\D/g,"").slice(0,10);
@@ -397,7 +411,7 @@
 
   async function lookupMember(wa) {
     try {
-      var resp = await fetch(BACKEND_URL+"/lookup_mw",{
+      var resp = await fetchWithRetry(BACKEND_URL+"/lookup_mw",{
         method:"POST",headers:{"Content-Type":"application/json"},
         body:JSON.stringify({wa})
       });
@@ -510,7 +524,7 @@
     setLoading(true);
     try {
       var b64  = await toBase64(ss);
-      var resp = await fetch(BACKEND_URL+"/mw_renew",{
+      var resp = await fetchWithRetry(BACKEND_URL+"/mw_renew",{
         method:"POST",headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
           wa,
@@ -530,7 +544,7 @@
         setLoading(false);
       }
     } catch(e) {
-      showErr("ইন্টারনেট সংযোগ সমস্যা।");
+      showErr("সার্ভার সংযোগ হচ্ছে না। একটু অপেক্ষা করে আবার চেষ্টা করুন।");
       setLoading(false);
     }
   }
