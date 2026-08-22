@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2f2f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FreelanceBuddy — MW Renewal V6</title>
+  <title>FreelanceBuddy — MW Renewal Vx</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -200,13 +200,13 @@
       <div class="sec-title">রিনিউয়াল প্ল্যান বেছে নিন</div>
       <div class="ios-group">
         <div class="mw-plans">
-          <div class="mw-plan-row selected" id="plan-mw_tg" onclick="selectPlan('mw_tg',30,this)">
+          <div class="mw-plan-row selected" id="plan-mw_tg" onclick="selectPlan('mw_tg',40,this)">
             <div class="mw-radio"></div>
             <div class="mw-plan-info">
               <div class="mw-plan-name">Telegram Alert</div>
               <div class="mw-plan-desc">Telegram চ্যানেলে MW জব অ্যালার্ট</div>
             </div>
-            <div class="mw-plan-price">₹30</div>
+            <div class="mw-plan-price">₹40</div>
           </div>
         </div>
       </div>
@@ -250,6 +250,19 @@
             <div class="field-status" id="stat-bank"></div>
           </div>
           <div class="field-hint-orange">⚠️ ব্যাংক অ্যাপে ঠিক যে নামে পেমেন্ট হয়েছে সেই নাম দিন</div>
+        </div>
+
+        <!-- TG Username -->
+        <div class="field-block">
+          <div class="field-top-label">Telegram ইউজারনেম</div>
+          <div class="field-row">
+            <div class="field-prefix">@</div>
+            <input type="text" id="f-tguser"
+              placeholder="আপনার TG username"
+              autocomplete="off" oninput="onTGInput(this)">
+            <div class="field-status" id="stat-tg"></div>
+          </div>
+          <div class="field-hint">Settings → Username — @ ছাড়া লিখুন</div>
         </div>
 
         <!-- SS Upload -->
@@ -321,21 +334,15 @@
         border:none;border-radius:var(--radius-lg);font-size:17px;font-weight:700;
         font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
         box-shadow:0 4px 16px rgba(175,82,222,0.3);transition:all 0.15s;
-      ">🌐 Join MW Alert Channel</button>
+      ">🌐 MW Alert চ্যানেলে জয়েন করুন</button>
 
-      <!-- App info card -->
-      <div id="btn-mw-app" style="display:none;
-        width:100%;padding:16px 18px;
-        background:var(--ios-purple-lt);border:2px solid var(--ios-purple);
-        border-radius:var(--radius-lg);text-align:center;line-height:1.6;
-      ">
-        <div style="font-size:16px;font-weight:700;color:var(--ios-purple);margin-bottom:4px;">
-          📱 App অ্যাক্সেস
-        </div>
-        <div style="font-size:13px;color:var(--ios-gray);">
-          আমরা আপনাকে WhatsApp এ App লিংক পাঠাব
-        </div>
-      </div>
+      <!-- Discuss Group -->
+      <button onclick="openLink('https://t.me/+3Oi6u5NBOhQyOWE1')" style="
+        width:100%;padding:16px;background:#e8f3ff;color:var(--ios-blue);
+        border:1.5px solid #a0c4f5;border-radius:var(--radius-lg);
+        font-size:16px;font-weight:600;
+        font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
+      ">💬 Discussion গ্রুপে জয়েন করুন</button>
 
       <!-- WhatsApp -->
       <button onclick="openWA()" style="
@@ -344,7 +351,7 @@
         border:1.5px solid #a7f3c0;border-radius:var(--radius-lg);
         font-size:16px;font-weight:600;
         font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
-      ">💬 WhatsApp Admin</button>
+      ">📞 WhatsApp Admin</button>
 
     </div>
 
@@ -426,9 +433,9 @@
         document.getElementById("current-plan-wrap").style.display = "block";
         // Auto-select TG plan and show everything
         selectedPlanKey = "mw_tg";
-        selectedPrice   = 30;
+        selectedPrice   = 40;
         document.getElementById("plan-section").style.display = "block";
-        document.getElementById("pay-amount").textContent = "₹30";
+        document.getElementById("pay-amount").textContent = "₹40";
         document.getElementById("payment-section").style.display = "block";
         document.getElementById("f-regname").value = data.name;
       } else {
@@ -479,6 +486,12 @@
     document.getElementById("stat-bank").textContent = inp.value.trim().length >= 2 ? "✅" : "";
   }
 
+  /* ── TG USERNAME ── */
+  function onTGInput(inp) {
+    inp.value = inp.value.replace(/[^a-zA-Z0-9_]/g, "");
+    document.getElementById("stat-tg").textContent = inp.value.trim().length >= 4 ? "✅" : "";
+  }
+
   /* ── SS FILE ── */
   function onSSFile(input) {
     if (!input.files[0]) return;
@@ -514,11 +527,13 @@
     document.getElementById("err-box").style.display="none";
     var wa       = document.getElementById("f-wa").value.trim();
     var bankname = document.getElementById("f-bankname").value.trim();
+    var tguser   = document.getElementById("f-tguser").value.trim();
     var ss       = document.getElementById("f-ss").files[0];
 
     if (!memberData)           return showErr("আগে WhatsApp নম্বর দিয়ে যাচাই করুন");
     if (!selectedPlanKey)      return showErr("একটি প্ল্যান বেছে নিন");
     if (bankname.length < 2)   return showErr("ব্যাংক / UPI পেয়ি নাম দিন");
+    if (tguser.length < 4)     return showErr("Telegram ইউজারনেম দিন");
     if (!ss)                   return showErr("পেমেন্ট স্ক্রিনশট আপলোড করুন");
 
     setLoading(true);
@@ -530,6 +545,7 @@
           wa,
           reg_name:  memberData.name,
           bank_name: bankname,
+          tg_user:   tguser,
           plan:      selectedPlanKey,
           amount:    selectedPrice,
           ss:        b64,
@@ -575,6 +591,11 @@
   }
 
   /* ── JOIN + BACK PREVENTION ── */
+  function openLink(url) {
+    var w = window.open(url, "_blank");
+    if (!w||w.closed||typeof w.closed==="undefined") window.location.href=url;
+  }
+
   function onJoin(type) {
     if (type==="tg") {
       var btn = document.getElementById("btn-mw-tg");
