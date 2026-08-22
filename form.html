@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2f2f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FreelanceBuddy V6</title>
+  <title>FreelanceBuddy Vx</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -306,7 +306,7 @@
         <div class="cat-plans">
           <div class="cat-plan-item">
             <span>Telegram Alert</span>
-            <span class="cat-plan-price">₹30</span>
+            <span class="cat-plan-price">₹40</span>
           </div>
         </div>
         <div class="cat-select-hint">ট্যাপ করুন →</div>
@@ -337,13 +337,13 @@
     <div class="plan-selector" id="mw-selector">
       <div class="selector-header">MW Alert — প্ল্যান বেছে নিন</div>
       <div class="mw-plans">
-        <div class="mw-plan-row" id="plan-mw_tg" onclick="selectPlan('mw_tg',30,this)">
+        <div class="mw-plan-row" id="plan-mw_tg" onclick="selectPlan('mw_tg',40,this)">
           <div class="mw-radio"></div>
           <div class="mw-plan-info">
             <div class="mw-plan-name">Telegram Only</div>
             <div class="mw-plan-desc">শুধু Telegram চ্যানেলে অ্যালার্ট</div>
           </div>
-          <div class="mw-plan-price">₹30</div>
+          <div class="mw-plan-price">₹40</div>
         </div>
 
       </div>
@@ -482,32 +482,28 @@
         border:none;border-radius:var(--radius-lg);font-size:17px;font-weight:700;
         font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
         box-shadow:0 4px 16px rgba(0,122,255,0.3);transition:all 0.15s;
-      ">⚡ Join SG Alert Channel</button>
+      ">⚡ SG Alert চ্যানেলে জয়েন করুন</button>
 
       <button id="btn-buyer" onclick="onJoin('buyer')" style="display:none;
         width:100%;padding:18px;background:#5856d6;color:white;
         border:none;border-radius:var(--radius-lg);font-size:17px;font-weight:700;
         font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
         box-shadow:0 4px 16px rgba(88,86,214,0.3);transition:all 0.15s;
-      ">👀 Join Buyer Watch Channel</button>
+      ">👀 Buyer Watch চ্যানেলে জয়েন করুন</button>
 
       <button id="btn-mw-tg" onclick="onJoin('mw_tg')" style="display:none;
         width:100%;padding:18px;background:var(--ios-purple);color:white;
         border:none;border-radius:var(--radius-lg);font-size:17px;font-weight:700;
         font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
         box-shadow:0 4px 16px rgba(175,82,222,0.3);transition:all 0.15s;
-      ">🌐 Join MW Alert Channel</button>
+      ">🌐 MW Alert চ্যানেলে জয়েন করুন</button>
 
-      <div id="btn-mw-app" style="display:none;
-        width:100%;padding:18px;
-        background:var(--ios-purple-lt);
-        border:2px solid var(--ios-purple);
-        border-radius:var(--radius-lg);font-size:15px;font-weight:600;
-        color:var(--ios-purple);text-align:center;line-height:1.5;
-      ">
-        📱 App অ্যাক্সেসের জন্য আমাদের WhatsApp করুন<br>
-        <span style="font-size:13px;font-weight:500;color:var(--ios-gray);">আমরা আপনাকে App লিংক পাঠাব</span>
-      </div>
+      <button onclick="onJoin('discuss')" style="
+        width:100%;padding:16px;background:#e8f3ff;color:var(--ios-blue);
+        border:1.5px solid #a0c4f5;border-radius:var(--radius-lg);
+        font-size:16px;font-weight:600;
+        font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
+      ">💬 Discussion গ্রুপে জয়েন করুন</button>
 
       <button onclick="openWA()" style="
         width:100%;padding:16px;
@@ -515,7 +511,7 @@
         border:1.5px solid #a7f3c0;border-radius:var(--radius-lg);
         font-size:16px;font-weight:600;
         font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
-      ">💬 WhatsApp Admin</button>
+      ">📞 WhatsApp Admin</button>
 
     </div>
 
@@ -537,9 +533,10 @@
 <script>
   /* ══ CONFIG ══════════════════════════════════════════════ */
   var LINKS = {
-    sg:    "https://t.me/+3gG0hIkafQcwMDk1",
-    buyer: "https://t.me/+-rbE17VCQcE0NDg1",
-    mw:    "https://t.me/+1Xl9mPrD8UE5NTc1"
+    sg:      "https://t.me/+3gG0hIkafQcwMDk1",
+    buyer:   "https://t.me/+-rbE17VCQcE0NDg1",
+    mw:      "https://t.me/+1Xl9mPrD8UE5NTc1",
+    discuss: "https://t.me/+3Oi6u5NBOhQyOWE1"
   };
   var WHATSAPP    = "6294146285";
   var BACKEND_URL = "https://freelancebuddy-bot.onrender.com";
@@ -750,12 +747,13 @@
   /* ── JOIN BUTTONS ── */
   function onJoin(type) {
     var url = "";
-    if (type==="sg")     url = LINKS.sg;
-    if (type==="buyer")  url = LINKS.buyer;
-    if (type==="mw_tg")  url = LINKS.mw;
+    if (type==="sg")      url = LINKS.sg;
+    if (type==="buyer")   url = LINKS.buyer;
+    if (type==="mw_tg")   url = LINKS.mw;
+    if (type==="discuss") url = LINKS.discuss;
     if (url) openLink(url);
-    // Turn button green
-    var ids = {sg:"btn-sg",buyer:"btn-buyer",mw_tg:"btn-mw-tg"};
+    // Turn button green for tracked buttons only
+    var ids = {sg:"btn-sg", buyer:"btn-buyer", mw_tg:"btn-mw-tg"};
     var btn = document.getElementById(ids[type]);
     if (btn) {
       btn.style.background="var(--ios-green)";
