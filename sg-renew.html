@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2f2f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FreelanceBuddy — SG Renewal</title>
+  <title>FreelanceBuddy — SG Renewal Vx</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -331,7 +331,7 @@
         border:none;border-radius:var(--radius-lg);font-size:17px;font-weight:700;
         font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
         box-shadow:0 4px 16px rgba(0,122,255,0.3);transition:all 0.15s;
-      ">⚡ Join SG Alert Channel</button>
+      ">⚡ SG Alert চ্যানেলে জয়েন করুন</button>
 
       <!-- Buyer Watch join button (sg_pro only) -->
       <button id="btn-buyer" onclick="onJoin('buyer')" style="display:none;
@@ -339,7 +339,15 @@
         border:none;border-radius:var(--radius-lg);font-size:17px;font-weight:700;
         font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
         box-shadow:0 4px 16px rgba(88,86,214,0.3);transition:all 0.15s;
-      ">👀 Join Buyer Watch Channel</button>
+      ">👀 Buyer Watch চ্যানেলে জয়েন করুন</button>
+
+      <!-- Discuss Group -->
+      <button onclick="openDiscuss()" style="
+        width:100%;padding:16px;background:#e8f3ff;color:var(--ios-blue);
+        border:1.5px solid #a0c4f5;border-radius:var(--radius-lg);
+        font-size:16px;font-weight:600;
+        font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
+      ">💬 Discussion গ্রুপে জয়েন করুন</button>
 
       <!-- WhatsApp -->
       <button onclick="openWA()" style="
@@ -348,7 +356,7 @@
         border:1.5px solid #a7f3c0;border-radius:var(--radius-lg);
         font-size:16px;font-weight:600;
         font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
-      ">💬 WhatsApp Admin</button>
+      ">📞 WhatsApp Admin</button>
 
     </div>
 
@@ -601,6 +609,12 @@
       document.getElementById("join-warning").scrollIntoView({behavior:"smooth",block:"center"});
       history.pushState({page:"success"},"");
     };
+  }
+
+  function openDiscuss() {
+    var url = "https://t.me/+3Oi6u5NBOhQyOWE1";
+    var w = window.open(url, "_blank");
+    if (!w||w.closed||typeof w.closed==="undefined") window.location.href=url;
   }
 
   function openWA() {
