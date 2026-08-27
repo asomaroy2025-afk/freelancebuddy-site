@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2f2f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FreelanceBuddy — MW Renewal Vx</title>
+  <title>FreelanceBuddy — MW Renewal11</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -252,19 +252,6 @@
           <div class="field-hint-orange">⚠️ ব্যাংক অ্যাপে ঠিক যে নামে পেমেন্ট হয়েছে সেই নাম দিন</div>
         </div>
 
-        <!-- TG Username -->
-        <div class="field-block">
-          <div class="field-top-label">Telegram ইউজারনেম</div>
-          <div class="field-row">
-            <div class="field-prefix">@</div>
-            <input type="text" id="f-tguser"
-              placeholder="আপনার TG username"
-              autocomplete="off" oninput="onTGInput(this)">
-            <div class="field-status" id="stat-tg"></div>
-          </div>
-          <div class="field-hint">Settings → Username — @ ছাড়া লিখুন</div>
-        </div>
-
         <!-- SS Upload -->
         <div class="upload-field">
           <input type="file" id="f-ss" accept="image/*" onchange="onSSFile(this)">
@@ -486,12 +473,6 @@
     document.getElementById("stat-bank").textContent = inp.value.trim().length >= 2 ? "✅" : "";
   }
 
-  /* ── TG USERNAME ── */
-  function onTGInput(inp) {
-    inp.value = inp.value.replace(/[^a-zA-Z0-9_]/g, "");
-    document.getElementById("stat-tg").textContent = inp.value.trim().length >= 4 ? "✅" : "";
-  }
-
   /* ── SS FILE ── */
   function onSSFile(input) {
     if (!input.files[0]) return;
@@ -527,13 +508,12 @@
     document.getElementById("err-box").style.display="none";
     var wa       = document.getElementById("f-wa").value.trim();
     var bankname = document.getElementById("f-bankname").value.trim();
-    var tguser   = document.getElementById("f-tguser").value.trim();
+    var tguser   = "";
     var ss       = document.getElementById("f-ss").files[0];
 
     if (!memberData)           return showErr("আগে WhatsApp নম্বর দিয়ে যাচাই করুন");
     if (!selectedPlanKey)      return showErr("একটি প্ল্যান বেছে নিন");
     if (bankname.length < 2)   return showErr("ব্যাংক / UPI পেয়ি নাম দিন");
-    if (tguser.length < 4)     return showErr("Telegram ইউজারনেম দিন");
     if (!ss)                   return showErr("পেমেন্ট স্ক্রিনশট আপলোড করুন");
 
     setLoading(true);
@@ -545,7 +525,6 @@
           wa,
           reg_name:  memberData.name,
           bank_name: bankname,
-          tg_user:   tguser,
           plan:      selectedPlanKey,
           amount:    selectedPrice,
           ss:        b64,
