@@ -8,160 +8,58 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --ios-bg:#f2f2f7;--ios-surface:#ffffff;
       --ios-blue:#007aff;--ios-blue-lt:#e8f3ff;
       --ios-green:#34c759;--ios-green-lt:#e8fbed;
       --ios-red:#ff3b30;--ios-red-lt:#fff1f0;
       --ios-orange:#ff9500;--ios-orange-lt:#fff4e5;
-      --ios-gray:#8e8e93;--ios-gray5:#e5e5ea;
-      --text:#000000;--text2:rgba(60,60,67,0.6);
-      --separator:rgba(60,60,67,0.12);
+      --ios-gray:#8e8e93;
+      --text:#000000;
       --radius-lg:22px;--radius:14px;
     }
-    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+    *{box-sizing:border-box;margin:0;padding:0;}
     body{
       font-family:'Inter','Hind Siliguri',sans-serif;
-      background:var(--ios-bg);color:var(--text);
-      min-height:100vh;min-height:100dvh;
-      display:flex;flex-direction:column;
-      align-items:center;justify-content:center;
-      padding:32px 20px;
-      -webkit-font-smoothing:antialiased;
+      background:#f2f2f7;min-height:100vh;min-height:100dvh;
+      display:flex;align-items:center;justify-content:center;
+      padding:24px 20px;-webkit-font-smoothing:antialiased;
     }
     .card{
-      width:100%;max-width:400px;
-      background:var(--ios-surface);
-      border-radius:var(--radius-lg);
-      padding:32px 24px;
+      width:100%;max-width:380px;background:#fff;
+      border-radius:var(--radius-lg);padding:28px 22px;
       box-shadow:0 4px 24px rgba(0,0,0,0.08);
-    }
-    .brand{
-      font-size:24px;font-weight:800;color:var(--text);
-      letter-spacing:-0.5px;text-align:center;margin-bottom:6px;
-    }
-    .brand span{color:var(--ios-blue);}
-    .badge{
-      display:inline-flex;align-items:center;gap:5px;
-      padding:4px 14px;background:var(--ios-orange-lt);
-      border-radius:50px;font-size:12px;font-weight:700;
-      color:var(--ios-orange);
-    }
-    .header-center{text-align:center;margin-bottom:28px;}
-
-    .notice-box{
-      background:var(--ios-red-lt);
-      border:1.5px solid #ffcdd2;
-      border-radius:var(--radius);
-      padding:20px 18px;
-      margin-bottom:16px;
       text-align:center;
     }
-    .notice-icon{font-size:36px;margin-bottom:10px;}
-    .notice-title{
-      font-size:18px;font-weight:800;
-      color:var(--ios-red);margin-bottom:8px;
-      line-height:1.3;
-    }
-    .notice-body{
-      font-size:14px;color:#7a1a1a;
-      line-height:1.9;font-weight:400;
-    }
-    .notice-body b{font-weight:700;}
-
-    .info-box{
-      background:var(--ios-blue-lt);
-      border:1.5px solid #a0c4f5;
-      border-radius:var(--radius);
-      padding:18px;margin-bottom:24px;
-      font-size:14px;color:#1a4a7a;
-      line-height:1.9;text-align:center;
-    }
-    .info-box b{font-weight:700;}
-
-    .btn-wa{
-      width:100%;padding:18px;
-      background:var(--ios-green);color:white;
-      border:none;border-radius:var(--radius-lg);
+    .brand{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:20px;}
+    .brand span{color:var(--ios-blue);}
+    .icon{font-size:42px;margin-bottom:12px;}
+    .title{font-size:17px;font-weight:800;color:var(--ios-red);margin-bottom:10px;line-height:1.4;}
+    .body{font-size:14px;color:#555;line-height:1.9;margin-bottom:24px;}
+    .body b{font-weight:700;color:#222;}
+    .btn{
+      width:100%;padding:17px;background:var(--ios-green);
+      color:white;border:none;border-radius:var(--radius-lg);
       font-size:16px;font-weight:700;
       font-family:'Hind Siliguri','Inter',sans-serif;
-      cursor:pointer;
-      box-shadow:0 4px 16px rgba(52,199,89,0.3);
-      transition:opacity 0.15s,transform 0.1s;
-      margin-bottom:12px;
+      cursor:pointer;box-shadow:0 4px 16px rgba(52,199,89,0.3);
     }
-    .btn-wa:active{opacity:0.8;transform:scale(0.98);}
-
-    .btn-secondary{
-      width:100%;padding:16px;
-      background:var(--ios-green-lt);color:#1a7a34;
-      border:1.5px solid #a7f3c0;border-radius:var(--radius-lg);
-      font-size:15px;font-weight:600;
-      font-family:'Hind Siliguri','Inter',sans-serif;
-      cursor:pointer;transition:opacity 0.15s;
-    }
-    .btn-secondary:active{opacity:0.8;}
-
-    .footer{
-      text-align:center;margin-top:20px;
-      font-size:12px;color:var(--ios-gray);line-height:1.6;
-    }
+    .btn:active{opacity:0.8;}
   </style>
 </head>
 <body>
 <div class="card">
-
-  <div class="header-center">
-    <div class="brand">Freelance<span>Buddy</span></div>
-    <div style="margin-top:6px;">
-      <span class="badge">⚡ SG Alert</span>
-    </div>
+  <div class="brand">Freelance<span>Buddy</span></div>
+  <div class="icon">🚫</div>
+  <div class="title">SG Telegram Temporarily Stopped</div>
+  <div class="body">
+    Alert পেতে আমাদের <b>FBuddy SG Alert App</b>-এ renew করুন।<br>
+    Play Store link পেতে WhatsApp করুন।
   </div>
-
-  <!-- Notice -->
-  <div class="notice-box">
-    <div class="notice-icon">🚫</div>
-    <div class="notice-title">SG Telegram Temporarily Stopped</div>
-    <div class="notice-body">
-      আমাদের <b>SG Alert Telegram channel</b>-এর renewal সাময়িকভাবে বন্ধ রাখা হয়েছে।<br><br>
-      অসুবিধার জন্য আমরা আন্তরিকভাবে দুঃখিত।
-    </div>
-  </div>
-
-  <!-- Info -->
-  <div class="info-box">
-    📱 Alert পেতে চাইলে আমাদের <b>FBuddy SG Alert App</b>-এ renew করুন।<br><br>
-    App টি <b>Play Store</b>-এ available — download link পেতে আমাদের WhatsApp করুন।
-  </div>
-
-  <!-- WhatsApp for App link -->
-  <button class="btn-wa" onclick="openWAApp()">
-    📲 App Download Link নিন
-  </button>
-
-  <!-- General WhatsApp -->
-  <button class="btn-secondary" onclick="openWA()">
-    📞 WhatsApp Admin
-  </button>
-
-  <div class="footer">
-    FreelanceBuddy · সকাল ৯টা – রাত ১০টা
-  </div>
-
+  <button class="btn" onclick="openWA()">📲 WhatsApp করুন</button>
 </div>
-
 <script>
-  var WHATSAPP = "6294146285";
-
-  function openWAApp() {
-    var msg = "হ্যালো! FBuddy SG Alert App-এর Play Store download link চাই।";
-    var url = "https://wa.me/91" + WHATSAPP + "?text=" + encodeURIComponent(msg);
-    var w = window.open(url, "_blank");
-    if (!w||w.closed||typeof w.closed==="undefined") window.location.href = url;
-  }
-
   function openWA() {
-    var msg = "হ্যালো! SG Alert সম্পর্কে জানতে চাই।";
-    var url = "https://wa.me/91" + WHATSAPP + "?text=" + encodeURIComponent(msg);
+    var msg = "হ্যালো! FBuddy SG Alert App-এর Play Store link চাই।";
+    var url = "https://wa.me/916294146285?text=" + encodeURIComponent(msg);
     var w = window.open(url, "_blank");
     if (!w||w.closed||typeof w.closed==="undefined") window.location.href = url;
   }
