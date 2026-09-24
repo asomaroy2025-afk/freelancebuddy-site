@@ -319,6 +319,26 @@
     </div>
 
     <!-- SG Plan Selector -->
+    <!-- JOIN PAUSED notice: shown instead of plans while JOIN_PAUSED is true -->
+    <div id="join-paused" style="display:none;margin-top:14px;
+      background:var(--ios-red-lt);border:1.5px solid #ffc9c5;border-radius:var(--radius-lg);
+      padding:20px 18px;text-align:center;font-family:'Hind Siliguri','Inter',sans-serif;">
+      <div style="font-size:18px;font-weight:700;color:var(--ios-red);line-height:1.5;">
+        টেলিগ্রামে নতুন জয়েন এখন বন্ধ আছে
+      </div>
+      <div style="font-size:16px;color:var(--text);line-height:1.7;margin-top:8px;">
+        জব অ্যালার্ট পেতে আমাদের <b>Play Store অ্যাপ</b> ব্যবহার করুন।<br>
+        অ্যাপের জন্য নিচের বাটনে চাপ দিয়ে Admin কে WhatsApp করুন।
+      </div>
+      <button onclick="openPausedWA()" style="
+        width:100%;padding:16px;margin-top:16px;
+        background:var(--ios-green-lt);color:#1a7a34;
+        border:1.5px solid #a7f3c0;border-radius:var(--radius-lg);
+        font-size:16px;font-weight:600;
+        font-family:'Hind Siliguri','Inter',sans-serif;cursor:pointer;
+      ">📞 WhatsApp Admin</button>
+    </div>
+
     <div class="plan-selector" id="sg-selector">
       <div class="selector-header">SG Alert — প্ল্যান বেছে নিন</div>
       <div class="sg-plans">
@@ -541,6 +561,8 @@
   };
   var WHATSAPP    = "6294146285";
   var BACKEND_URL = "https://freelancebuddy-bot.onrender.com";
+  // New Telegram joins paused (2026-09-24). Set to false to reopen the form as before.
+  var JOIN_PAUSED = true;
   /* ════════════════════════════════════════════════════════ */
 
   var currentCategory = null;
@@ -557,6 +579,16 @@
     // Highlight selected category card
     document.getElementById("cat-sg").classList.toggle("selected", cat === "sg");
     document.getElementById("cat-mw").classList.toggle("selected", cat === "mw");
+
+    if (JOIN_PAUSED) {
+      document.getElementById("sg-selector").classList.remove("visible");
+      document.getElementById("mw-selector").classList.remove("visible");
+      updatePaymentVisibility(false);
+      var box = document.getElementById("join-paused");
+      box.style.display = "";
+      box.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
 
     // Show correct plan selector
     var sgSel = document.getElementById("sg-selector");
@@ -811,6 +843,11 @@
   }
   function openWA() {
     openLink("https://wa.me/91"+WHATSAPP+"?text="+encodeURIComponent(waMsg));
+  }
+  function openPausedWA() {
+    var svc = currentCategory === "sg" ? "SG Alert" : "MW Alert";
+    openLink("https://wa.me/91"+WHATSAPP+"?text="+encodeURIComponent(
+      "আমি " + svc + " এর Play Store অ্যাপ ব্যবহার করতে চাই।"));
   }
 </script>
 </body>
