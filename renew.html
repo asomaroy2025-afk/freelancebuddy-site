@@ -1,311 +1,105 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#f2f2f7">
   <title>FreelanceBuddy — রিনিউ করুন</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg:#0a0a0a;--surface:#141414;--surface2:#1c1c1c;
-      --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
-      --green:#30d158;--green-dim:rgba(48,209,88,0.12);
-      --orange:#ff9f0a;--text:#ffffff;--text2:#ebebf5cc;--text3:#ebebf566;
-      --red:#ff453a;--radius:16px;--radius-sm:12px;
+    /* 2026-10-07: Telegram joins and renewals moved to @FbuddyJoinBot (automatic
+       payment check, approval, reminders, removal). The old form lives in git history. */
+    :root{
+      --bg:#f2f2f7; --surface:#ffffff; --blue:#007aff; --blue-lt:#e8f3ff; --blue-dk:#0062cc;
+      --green:#34c759; --green-lt:#e8fbed; --red:#ff3b30; --red-lt:#fff1f0;
+      --text:#000; --text2:#3c3c43; --gray:#8e8e93; --sep:rgba(60,60,67,0.12);
     }
-    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-    body{
-      font-family:'Hind Siliguri','Nunito',sans-serif;
-      background:var(--bg);color:var(--text);
-      min-height:100vh;min-height:100dvh;
-      display:flex;align-items:flex-start;justify-content:center;
-      padding:env(safe-area-inset-top,16px) 16px env(safe-area-inset-bottom,24px);
-    }
-    body::before{
-      content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);
-      width:600px;height:600px;
-      background:radial-gradient(circle,rgba(255,159,10,0.05) 0%,transparent 70%);
-      pointer-events:none;z-index:0;
-    }
-    .wrapper{width:100%;max-width:420px;padding:20px 0 40px;position:relative;z-index:1;}
-
-    .header{text-align:center;margin-bottom:20px;animation:fadeUp 0.4s ease both}
-    .brand-name{font-family:'Nunito',sans-serif;font-size:26px;font-weight:800;letter-spacing:-0.5px}
-    .brand-name span{color:var(--green)}
-    .renew-badge{
-      display:inline-flex;align-items:center;gap:6px;
-      background:rgba(255,159,10,0.1);border:1px solid rgba(255,159,10,0.2);
-      border-radius:50px;padding:5px 14px;
-      font-size:13px;font-weight:700;color:var(--orange);margin-top:8px;
-    }
-
-    .card{
-      background:var(--surface);border:1px solid var(--border);
-      border-radius:24px;overflow:hidden;
-      box-shadow:0 2px 40px rgba(0,0,0,0.4);
-      animation:fadeUp 0.4s ease 0.05s both;
-    }
-    .section-label{font-size:12px;font-weight:700;color:var(--text3);letter-spacing:0.5px;padding:16px 20px 8px;}
-
-    .pricing-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 16px;}
-    .price-card{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center;}
-    .price-amount{font-family:'Nunito',sans-serif;font-size:22px;font-weight:800;color:var(--green);margin-bottom:4px;}
-    .price-plan{font-size:12px;color:var(--text3);}
-
-    .divider{height:1px;background:var(--border);margin:0 20px;}
-
-    .upi-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;}
-    .upi-left{display:flex;align-items:center;gap:12px;}
-    .upi-icon{width:40px;height:40px;background:linear-gradient(135deg,#6e40c9,#4b1dbd);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-    .upi-label{font-size:12px;color:var(--text3);margin-bottom:2px;}
-    .upi-id{font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;color:var(--text);}
-    .copy-pill{background:var(--surface2);border:1px solid var(--border2);border-radius:50px;padding:8px 16px;font-size:13px;font-weight:700;color:var(--orange);cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;font-family:'Nunito',sans-serif;}
-    .copy-pill:active{transform:scale(0.95)}
-    .copy-pill.copied{color:var(--text3);border-color:var(--border)}
-
-    .fields{padding:4px 16px 16px;display:flex;flex-direction:column;gap:10px;}
-    .field-wrap{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;gap:12px;padding:0 16px;transition:border-color 0.2s;}
-    .field-wrap:focus-within{border-color:rgba(255,159,10,0.5)}
-    .field-icon{font-size:17px;flex-shrink:0;opacity:0.7;}
-    .field-inner{flex:1;padding:13px 0;}
-    .field-label{font-size:11px;color:var(--text3);font-weight:600;margin-bottom:3px;font-family:'Nunito',sans-serif;letter-spacing:0.3px;}
-    input{background:transparent;border:none;outline:none;font-size:15px;font-weight:600;color:var(--text);width:100%;font-family:'Hind Siliguri','Nunito',sans-serif;-webkit-appearance:none;}
-    input::placeholder{color:var(--text3);font-weight:400;}
-
-    .upload-wrap{background:var(--surface2);border:1.5px dashed var(--border2);border-radius:var(--radius-sm);padding:22px;text-align:center;cursor:pointer;position:relative;transition:all 0.2s;margin:0 16px 16px;}
-    .upload-wrap.has-file{border-color:var(--green);border-style:solid;background:var(--green-dim);}
-    .upload-wrap input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-    .upload-icon{font-size:28px;margin-bottom:6px;}
-    .upload-main{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
-    .upload-sub{font-size:12px;color:var(--text3);}
-    .upload-sub.ready{color:var(--green);font-weight:700;}
-
-    .notice{display:flex;align-items:flex-start;gap:10px;background:rgba(255,159,10,0.06);border:1px solid rgba(255,159,10,0.15);border-radius:var(--radius-sm);padding:12px 14px;margin:0 16px 16px;}
-    .notice-icon{font-size:14px;flex-shrink:0;margin-top:2px;}
-    .notice-text{font-size:13px;color:var(--text2);line-height:1.6;}
-    .notice-text b{color:var(--text);}
-
-    .error-box{background:rgba(255,69,58,0.1);border:1px solid rgba(255,69,58,0.2);border-radius:var(--radius-sm);padding:12px 16px;margin:0 16px 12px;font-size:13px;font-weight:600;color:var(--red);display:none;}
-
-    .submit-wrap{padding:0 16px 20px;}
-    .submit-btn{width:100%;padding:17px;background:var(--orange);color:#000;border:none;border-radius:var(--radius);font-size:16px;font-weight:800;font-family:'Hind Siliguri','Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;}
-    .submit-btn:active{transform:scale(0.98)}
-    .submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-    .spinner{width:18px;height:18px;border:2.5px solid rgba(0,0,0,0.2);border-top-color:#000;border-radius:50%;animation:spin 0.7s linear infinite;display:none;}
-    @keyframes spin{to{transform:rotate(360deg)}}
-
-    .success-screen{display:none;animation:fadeUp 0.4s ease both;}
-    .success-header{text-align:center;padding:32px 20px 24px;}
-    .success-anim{width:76px;height:76px;background:var(--green-dim);border:2px solid var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 16px;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;}
-    @keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
-    .success-title{font-size:22px;font-weight:700;margin-bottom:6px;}
-    .success-sub{font-size:14px;color:var(--text3);line-height:1.6;}
-
-    .result-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;margin-bottom:16px;overflow:hidden;}
-    .result-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);}
-    .result-row:last-child{border-bottom:none;}
-    .result-label{font-size:13px;color:var(--text3);}
-    .result-val{font-size:14px;font-weight:700;color:var(--text);}
-    .result-val.green{color:var(--green);}
-
-    .wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;border-radius:var(--radius);background:#128c7e;color:white;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Hind Siliguri','Nunito',sans-serif;transition:opacity 0.2s;}
-    .wa-btn:active{opacity:0.85}
-
-    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter','Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);
+         -webkit-font-smoothing:antialiased;padding:0 16px 48px;}
+    .wrap{max-width:460px;margin:0 auto;}
+    header{padding:28px 4px 18px;}
+    .brand{font-size:26px;font-weight:800;letter-spacing:-0.5px;}
+    .brand span{color:var(--blue);}
+    .sub{margin-top:6px;font-size:14px;font-weight:600;color:var(--gray);}
+    .card{background:var(--surface);border-radius:22px;padding:22px 20px;margin-bottom:14px;
+          box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+    .hero-icon{width:56px;height:56px;border-radius:16px;background:var(--blue-lt);display:flex;
+               align-items:center;justify-content:center;font-size:28px;margin-bottom:14px;}
+    h1{font-size:21px;font-weight:700;line-height:1.35;}
+    .lead{margin-top:8px;font-size:15px;line-height:1.6;color:var(--text2);}
+    .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-decoration:none;
+         background:var(--blue);color:#fff;font-weight:700;font-size:17px;border-radius:14px;
+         padding:16px;margin-top:18px;}
+    .btn:active{background:var(--blue-dk);}
+    .label{font-size:13px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:0.4px;
+           margin:22px 4px 8px;}
+    .plan{display:flex;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;
+          color:inherit;background:var(--surface);border-radius:16px;padding:16px 18px;margin-bottom:10px;
+          border:2px solid transparent;}
+    .plan.hl{border-color:var(--blue);}
+    .plan-name{font-size:16px;font-weight:700;}
+    .plan-days{font-size:13px;color:var(--gray);margin-top:2px;}
+    .plan-price{font-size:18px;font-weight:800;color:var(--blue);white-space:nowrap;}
+    .steps{list-style:none;}
+    .steps li{display:flex;gap:12px;padding:10px 0;font-size:15px;line-height:1.5;color:var(--text2);
+              border-bottom:1px solid var(--sep);}
+    .steps li:last-child{border-bottom:none;}
+    .num{flex:0 0 26px;height:26px;border-radius:50%;background:var(--blue-lt);color:var(--blue);
+         font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;}
+    .good{background:var(--green-lt);color:#1d7a35;border-radius:14px;padding:14px 16px;font-size:14px;
+          line-height:1.55;font-weight:600;}
+    .warn{background:var(--red-lt);color:#c4281f;border-radius:14px;padding:14px 16px;font-size:14px;
+          line-height:1.55;font-weight:600;margin-top:10px;}
+    footer{text-align:center;font-size:13px;color:var(--gray);margin-top:22px;line-height:1.6;}
+    footer a{color:var(--blue);text-decoration:none;font-weight:600;}
   </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="wrap">
+  <header>
+    <div class="brand">Freelance<span>Buddy</span></div>
+    <div class="sub">Telegram Alert — রিনিউ করুন</div>
+  </header>
 
-  <!-- FORM -->
-  <div id="form-screen">
-    <div class="header">
-      <div class="brand-name">Freelance<span>Buddy</span></div>
-      <div><span class="renew-badge">🔄 সাবস্ক্রিপশন রিনিউ করুন</span></div>
-    </div>
-
-    <div class="card">
-      <div class="section-label">বর্তমান প্ল্যানের মূল্য</div>
-      <div class="pricing-row">
-        <div class="price-card">
-          <div class="price-amount">₹30</div>
-          <div class="price-plan">শুধু SG Alert</div>
-        </div>
-        <div class="price-card">
-          <div class="price-amount">₹39</div>
-          <div class="price-plan">SG + Buyer Watcher</div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="upi-row">
-        <div class="upi-left">
-          <div class="upi-icon">💳</div>
-          <div>
-            <div class="upi-label">প্রথমে UPI তে পেমেন্ট করুন</div>
-            <div class="upi-id" id="upi-text">8759580801-4@ybl</div>
-          </div>
-        </div>
-        <button class="copy-pill" id="copy-btn" onclick="copyUPI()">কপি</button>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="section-label">আপনার তথ্য দিন</div>
-      <div class="fields">
-        <div class="field-wrap">
-          <div class="field-icon">📱</div>
-          <div class="field-inner">
-            <div class="field-label">হোয়াটসঅ্যাপ নম্বর (যোগদানের সময় যেটি দিয়েছিলেন)</div>
-            <input type="tel" id="f-wa" placeholder="আপনার নম্বর লিখুন" inputmode="numeric">
-          </div>
-        </div>
-      </div>
-
-      <div class="notice">
-        <div class="notice-icon">💡</div>
-        <div class="notice-text">
-          আপনার প্ল্যান অনুযায়ী পেমেন্ট করুন, তারপর ফর্ম জমা দিন।
-          <b>যোগদানের সময় যে WhatsApp নম্বর দিয়েছিলেন সেটিই দিন।</b>
-        </div>
-      </div>
-
-      <div class="error-box" id="err-box"></div>
-
-      <div class="submit-wrap">
-        <button class="submit-btn" id="sub-btn" onclick="doSubmit()">
-          <div class="spinner" id="spinner"></div>
-          <span id="btn-text">রিনিউয়াল জমা করুন →</span>
-        </button>
-      </div>
-    </div>
+  <div class="card">
+    <div class="hero-icon">🤖</div>
+    <h1>জয়েন আর রিনিউ এখন আমাদের অফিসিয়াল বটে</h1>
+    <p class="lead">ফর্ম, QR বা স্ক্রিনশট আর লাগবে না। বটে পেমেন্ট করলেই সাথে সাথে আপনা থেকে চালু হয়ে যায় — দিনে-রাতে যেকোনো সময়।</p>
+    <a class="btn" href="https://t.me/FbuddyJoinBot">✈️ @FbuddyJoinBot খুলুন</a>
   </div>
 
-  <!-- SUCCESS -->
-  <div id="success-screen" class="success-screen">
-    <div class="success-header">
-      <div class="success-anim">✅</div>
-      <div class="success-title">রিনিউয়াল জমা হয়েছে!</div>
-      <div class="success-sub">
-        আমরা আপনার পেমেন্ট যাচাই করে<br>
-        ১ ঘণ্টার মধ্যে অ্যাক্সেস বাড়িয়ে দেব।
-      </div>
-    </div>
+  <div class="label">প্ল্যান বেছে নিন</div>
+  <a class="plan" href="https://t.me/FbuddyJoinBot?start=mw">
+    <div><div class="plan-name">MW Alert</div><div class="plan-days">Microworker জব অ্যালার্ট · ৩০ দিন</div></div>
+    <div class="plan-price">₹40</div>
+  </a>
+  <a class="plan" href="https://t.me/FbuddyJoinBot?start=sg">
+    <div><div class="plan-name">SG Job Alert</div><div class="plan-days">Sproutgigs জব অ্যালার্ট · ৩০ দিন</div></div>
+    <div class="plan-price">₹30</div>
+  </a>
+  <a class="plan" href="https://t.me/FbuddyJoinBot?start=buyer">
+    <div><div class="plan-name">SG Buyer Alert</div><div class="plan-days">Sproutgigs বায়ার অ্যালার্ট · ৩০ দিন</div></div>
+    <div class="plan-price">₹9</div>
+  </a>
 
-    <div class="result-card">
-      <div class="result-row">
-        <div class="result-label">WhatsApp</div>
-        <div class="result-val" id="r-wa">—</div>
-      </div>
-      <div class="result-row">
-        <div class="result-label">স্ট্যাটাস</div>
-        <div class="result-val green">⏳ যাচাই হচ্ছে</div>
-      </div>
-      <div class="result-row">
-        <div class="result-label">অ্যাক্সেস বাড়বে</div>
-        <div class="result-val green">অ্যাপ্রুভালের পর +৩০ দিন</div>
-      </div>
-    </div>
-
-    <button class="wa-btn" onclick="openHelp()">
-      💬 সাহায্যের জন্য WhatsApp করুন
-    </button>
+  <div class="label">কীভাবে করবেন</div>
+  <div class="card">
+    <ol class="steps">
+      <li><span class="num">১</span><span>উপরের বাটনে চাপ দিয়ে বট খুলুন, <b>START</b> চাপুন।</span></li>
+      <li><span class="num">২</span><span>চ্যানেল বেছে নিন — বট আপনাকে একটা <b>মেম্বার কোড</b> দেবে।</span></li>
+      <li><span class="num">৩</span><span>পেমেন্ট পেজে <b>Telegram Code</b> ঘরে সেই কোড লিখে UPI দিয়ে পেমেন্ট করুন।</span></li>
+      <li><span class="num">৪</span><span>১ মিনিটের মধ্যে বট জয়েন বাটন পাঠাবে — <b>Request to Join</b> চাপলেই সাথে সাথে অ্যাপ্রুভ।</span></li>
+    </ol>
   </div>
 
+  <div class="good">✅ রিনিউ করলে বাকি দিন নষ্ট হয় না। মেয়াদ শেষের আগে বট নিজেই মনে করিয়ে দেবে।</div>
+  <div class="warn">🚫 অ্যাডমিনকে স্ক্রিনশট পাঠানোর দরকার নেই — পেমেন্ট আপনা থেকেই ধরা পড়ে।</div>
+
+  <footer>
+    সমস্যা হলে বটে <b>/help</b> লিখুন বা<br>
+    <a href="https://wa.me/916294146285">WhatsApp-এ অ্যাডমিনকে মেসেজ করুন</a>
+  </footer>
 </div>
-
-<script>
-  var UPI_ID      = "8759580801-4@ybl";
-  var WHATSAPP    = "6294146285";
-  var BACKEND_URL = "https://freelancebuddy-bot.onrender.com";
-
-  document.getElementById("upi-text").textContent = UPI_ID;
-
-  function copyUPI() {
-    navigator.clipboard.writeText(UPI_ID).catch(() => {
-      var t = document.createElement("textarea");
-      t.value = UPI_ID; document.body.appendChild(t);
-      t.select(); document.execCommand("copy");
-      document.body.removeChild(t);
-    });
-    var btn = document.getElementById("copy-btn");
-    btn.textContent = "হয়েছে ✓"; btn.classList.add("copied");
-    setTimeout(() => { btn.textContent = "কপি"; btn.classList.remove("copied"); }, 2000);
-  }
-
-  function onFile(input) {
-    if (!input.files[0]) return;
-    document.getElementById("upload-icon").textContent = "✅";
-    document.getElementById("upload-main").textContent = input.files[0].name;
-    document.getElementById("upload-sub").textContent  = "স্ক্রিনশট প্রস্তুত";
-    document.getElementById("upload-sub").className    = "upload-sub ready";
-    document.getElementById("upload-wrap").classList.add("has-file");
-  }
-
-  function showErr(msg) {
-    var box = document.getElementById("err-box");
-    box.textContent = "⚠️ " + msg;
-    box.style.display = "block";
-    box.scrollIntoView({behavior:"smooth", block:"center"});
-  }
-
-  function setLoading(on) {
-    var btn = document.getElementById("sub-btn");
-    document.getElementById("spinner").style.display = on ? "block" : "none";
-    document.getElementById("btn-text").textContent  = on ? "জমা হচ্ছে…" : "রিনিউয়াল জমা করুন →";
-    btn.disabled = on;
-  }
-
-  function toBase64(file) {
-    return new Promise((res, rej) => {
-      var r = new FileReader();
-      r.onload  = () => res(r.result.split(",")[1]);
-      r.onerror = () => rej(new Error("ফাইল পড়া যায়নি"));
-      r.readAsDataURL(file);
-    });
-  }
-
-  function openHelp() {
-    var wa  = document.getElementById("r-wa").textContent;
-    var msg = "হ্যালো! আমি FreelanceBuddy রিনিউয়াল ফর্ম জমা দিয়েছি।\nWhatsApp: " + wa;
-    var url = "https://wa.me/91" + WHATSAPP + "?text=" + encodeURIComponent(msg);
-    var w = window.open(url, "_blank");
-    if (!w || w.closed || typeof w.closed === "undefined") {
-      window.location.href = url;
-    }
-  }
-
-  async function doSubmit() {
-    document.getElementById("err-box").style.display = "none";
-    var wa = document.getElementById("f-wa").value.trim();
-
-    if (!wa) return showErr("হোয়াটসঅ্যাপ নম্বর দিন");
-
-    setLoading(true);
-    try {
-      var resp = await fetch(BACKEND_URL + "/renew", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ wa: wa })
-      });
-      var data = await resp.json();
-      if (data.success) {
-        document.getElementById("r-wa").textContent = wa;
-        document.getElementById("form-screen").style.display    = "none";
-        document.getElementById("success-screen").style.display = "block";
-        window.scrollTo({top:0, behavior:"smooth"});
-      } else {
-        showErr(data.error || "কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-        setLoading(false);
-      }
-    } catch(e) {
-      showErr("ইন্টারনেট সমস্যা। আবার চেষ্টা করুন।");
-      setLoading(false);
-    }
-  }
-</script>
 </body>
 </html>
